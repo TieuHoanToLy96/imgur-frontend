@@ -1,0 +1,123 @@
+.is {
+  &-relative {
+    position: relative;
+  }
+  &-absolute {
+    position: absolute;
+  }
+  &-flex {
+    display: flex;
+    &--space-between {
+      justify-content: space-between;
+
+    }
+    &--end {
+      justify-content: flex-end;
+    }
+    &--center {
+      align-items: center;
+      justify-content: center;
+    }
+    &--vcenter {
+      align-items: center;
+    }
+    &--hcenter {
+      justify-content: center
+    }
+  }
+  &-cursor {
+    cursor: pointer;
+  }
+}
+
+.pd {
+  &-lr {
+    &--20 {
+      padding: 0px 20px
+    }
+  }
+}
+
+  
+.mb {
+  &-5 {
+    margin-bottom: 5px
+  }
+  &-10 {
+    margin-bottom: 10px
+  }
+  &-15 {
+    margin-bottom: 15px
+  }
+  &-20 {
+    margin-bottom: 20px
+  }
+  &-25 {
+    margin-bottom: 25px
+  }
+  &-50 {
+    margin-bottom: 50px
+  }
+}
+
+.mt {
+  &-5 {
+    margin-top: 5px
+  }
+  &-10 {
+    margin-top: 10px
+  }
+  &-15 {
+    margin-top: 15px
+  }
+  &-20 {
+    margin-top: 20px
+  }
+  &-25 {
+    margin-top: 25px
+  }
+  &-50 {
+    margin-top: 50px
+  }
+}
+
+.mr {
+  &-5 {
+    margin-right: 5px
+  }
+  &-10 {
+    margin-right: 10px
+  }
+  &-15 {
+    margin-right: 15px
+  }
+  &-20 {
+    margin-right: 20px
+  }
+  &-25 {
+    margin-right: 25px
+  }
+  &-50 {
+    margin-right: 50px
+  }
+}
+.ml {
+  &-5 {
+    margin-left: 5px
+  }
+  &-10 {
+    margin-left: 10px
+  }
+  &-15 {
+    margin-left: 15px
+  }
+  &-20 {
+    margin-left: 20px
+  }
+  &-25 {
+    margin-left: 25px
+  }
+  &-50 {
+    margin-left: 50px
+  }
+}

@@ -4,7 +4,6 @@ import { Provider } from "react-redux"
 
 import connectRedux from "../redux/store"
 
-
 class MyApp extends App {
   static async getInitialProps ({ Component, ctx }) {
     return {

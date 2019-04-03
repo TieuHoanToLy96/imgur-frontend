@@ -1,0 +1,122 @@
+@import "../modules/color.scss";
+
+.sign {
+  color: $color-white;
+  height: 100vh;
+  background-color: $color-bg-dark;
+  .back-imgur {
+    color: $color-white;
+    font-weight: 500;
+    padding: 20px;
+    font-size: 13px;
+  }
+  &-container {
+    width: 350px;
+    margin: auto;
+  }
+  &-logo {
+    margin: 20px auto 90px;
+    width: 187px;
+    height: 65px;
+  }
+  &-callout {
+   margin: 0 auto; 
+   font-size: 12px;
+   line-height: 28px;
+  }
+  &-social {
+    border-radius: 5px;
+    &--content {
+      padding: 12px;
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    &--item {
+      border-radius: 5px;
+      border-bottom: 5px solid;
+      padding: 8px;
+      background: #212121;
+      font-size: 21px;
+      color: $color-white;
+      text-decoration: none;
+      &__fb {
+        border-bottom-color: #3A558E;
+        &:hover {
+          background-color: #3a558e;
+        }
+      }
+      &__twitter {
+        border-bottom-color: #4099FF;
+        &:hover {
+          background-color: #4099FF;
+        }
+      }
+      &__google {
+        border-bottom-color: #4285F4;
+        &:hover {
+          background-color: #4285F4;
+        }
+      }
+      &__yahoo {
+        border-bottom-color: #7B0099;
+        &:hover {
+          background-color: #7B0099;
+        }
+      }
+    }
+    
+  }
+}
+
+.core-dark-bg {
+  background-color: $color-core-dark;
+}
+
+.sign-form {
+  border-radius: 5px;
+
+  &--content {
+    padding: 15px;
+    input {
+      border: 1px solid transparent;
+      background-color: #191919;
+      outline: 0;
+      box-shadow: none;
+      box-sizing: border-box;
+      padding: 5px 10px;
+      font-size: .9em;
+      line-height: 1.5em;
+      color: #f2f2f2;
+      margin-bottom: 10px;
+      letter-spacing: .02em;
+      &:hover {
+        border-color: transparent;
+      }
+      &:focus {
+        box-shadow: none;
+        border: 1px solid #1bb76e;
+      }
+    }
+  }
+}
+.button {
+  &-register {
+    background-color: #5c69ff;
+    font-size: 13px;
+  }
+}
+.fade-content-break {
+  .fade-break {
+    background: url("https://s.imgur.com/images/access/fading-section-break.png") no-repeat;
+    margin-right: 10px;
+    margin-left: 10px;
+    opacity: .7;
+    width: 111px;
+    height: 3px;
+    display: inline-block;
+  }
+  .fade-break-flip {
+    transform: rotate(180deg); 
+  }
+}
