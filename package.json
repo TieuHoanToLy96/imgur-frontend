@@ -23,6 +23,7 @@
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "immer": "^2.1.4",
+    "js-cookie": "^2.2.0",
     "next": "^8.0.3",
     "next-redux-wrapper": "^3.0.0-alpha.2",
     "node-sass": "^4.11.0",

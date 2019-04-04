@@ -2,7 +2,7 @@ import App, { Container } from "next/app"
 import React from "react"
 import { Provider } from "react-redux"
 
-import connectRedux from "../redux/store"
+import {connectRedux} from "../redux/store"
 
 class MyApp extends App {
   static async getInitialProps ({ Component, ctx }) {
@@ -11,7 +11,6 @@ class MyApp extends App {
         ? await Component.getInitialProps(ctx)
         : {}
     }
-
   }
 
   render () {

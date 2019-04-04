@@ -78,6 +78,13 @@
 
   &--content {
     padding: 15px;
+    .ant-input-password {
+      .ant-input-suffix {
+        color: $color-white;
+        top: 17px;
+        right: 10px;
+      }
+    }
     input {
       border: 1px solid transparent;
       background-color: #191919;
@@ -91,17 +98,19 @@
       margin-bottom: 10px;
       letter-spacing: .02em;
       &:hover {
-        border-color: transparent;
+        border-color: transparent !important;
       }
       &:focus {
-        box-shadow: none;
-        border: 1px solid #1bb76e;
+        box-shadow: none !important;
+        border: 1px solid #1bb76e !important;
       }
     }
   }
 }
 .button {
   &-register {
+    width: 85px;
+    border-color: #5c69ff;
     background-color: #5c69ff;
     font-size: 13px;
   }

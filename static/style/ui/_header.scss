@@ -27,10 +27,29 @@
       display: flex;
       width: 100%;
     }
-    .top-comment {
-      padding: 0px 10px;
+    .button-link {
+      padding: 0px 5px;
       &:hover {
         opacity: 0.6;
+      }
+    }
+    .user {
+      &-avatar-default {
+        background-image: url(https://i.imgur.com/XzARrBw_d.png?maxwidth=290&fidelity=grand);
+      }
+      &-name {
+      
+      }
+      &-avatar {
+        margin-left: 9px;
+        border-radius: 50%;
+        width: 37px;
+        height: 37px;
+        background-size: cover;
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
     .sign {

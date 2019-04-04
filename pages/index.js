@@ -1,20 +1,20 @@
 import {Input, Button, Icon} from "antd"
-import {connect} from "react-redux"
 import Router from "next/router"
+import { connect } from "react-redux"
 
 import HOC from "/hoc/index"
-import {setToken, getAllArticle} from "/pages/actions.js"
 import "/static/style/main.scss"
+import { authAccount } from "/pages/account/actions"
 
 const Index = props => {
-  const {setToken} = props
+  const {account, token} = props
   
   const handleClickSignIn = () => {
-    Router.push("/sign-in")
+    Router.push("/account/sign-in")
   }
 
   const handleClickSignUp = () => {
-    Router.push("/sign-up")
+    Router.push("/account/sign-up")
   }
 
   return (
@@ -35,25 +35,64 @@ const Index = props => {
         </div>
         <div className="header-item header-right">
           <div className="header-item--content">
-            <div className="top-comment">
+            <div className="button-link">
               <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-leaderboard.2c7c197ab7cc58a23c14b83dcc3025a9.svg"/>
             </div>
-            <div className="sign-action sign-in" onClick={handleClickSignIn}>
-              Sign in
-            </div>
-            <div className="sign-action sign-up" onClick={handleClickSignUp}>
-              Sign up
-            </div>
+            {
+              (account) &&
+              <div className="button-link">
+                <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-chat.f91379e0c16bc9fe39a41956da9457c4.svg"/>
+              </div>
+            }
+            {
+              (account) && 
+              <div className="button-link">
+                <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-notifications.aeebfeab4400518b87f939217d186198.svg"/>
+              </div>
+            }
+            {
+              account &&
+              <div className="user is-flex is-flex--vcenter ml-10">
+                {
+                  account.user_name &&
+                  <div className="user-name">
+                    {account.user_name}  
+                  </div>
+                }
+                {
+                  account.avatar ?
+                  <div className="user-avatar">
+                    <img className="user-avatar" src={account.avatar}/>
+                  </div>
+                  :
+                  <div className="user-avatar user-avatar-default is-flex is-flex--center">
+                    { account.user_name.charAt(0)}
+                  </div>
+                }
+              </div>
+            }
+            
+            {
+              (!account) && 
+              <div className="sign-action sign-in" onClick={handleClickSignIn}>
+              	Sign in
+            	</div>
+            }
+            {
+							(!account) &&
+							<div className="sign-action sign-up" onClick={handleClickSignUp}>
+              	Sign up
+            	</div>
+						}
           </div>
         </div>
       </div>
     </div>
   )
-
 }
 const mapStateToProps = state => {
   return {
-    token: null
+    account: state.account.info
   }
 }
-export default connect(mapStateToProps, {setToken, getAllArticle})(HOC(Index))
+export default connect(mapStateToProps, {})(HOC(Index))

@@ -11,8 +11,8 @@ app.prepare().then(() => {
 	const server = express()
   server.use(cookieParser())
 
-  server.get("/sign-in", (req, res) => handle(req, res))
-  server.get("/sign-up", (req, res) => handle(req, res)) 
+  server.get("/account/sign-in", (req, res) => handle(req, res))
+  server.get("/account/sign-up", (req, res) => handle(req, res)) 
   server.get("/", (req, res) => handle(req, res))
 	server.get('*', (req, res) => handle(req, res))
 

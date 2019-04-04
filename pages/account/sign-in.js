@@ -1,15 +1,32 @@
-import {Input, Button} from "antd"
+import { Input, Button, Icon } from "antd"
 import Router from "next/router"
+import { useState } from "react"
+import { connect } from "react-redux"
 
 import "/static/style/main.scss";
 import HOC from "/hoc/index"
+import { useInput } from "/hook/index"
+import { logIn } from  "/pages/account/actions"
 
 const SignUp  = props => {
-	const handleClickBack = () => {
+  const { logIn } = props
+  const [email, setEmail] = useInput("")
+  const [password, setPassword] = useInput("")
+  const [loadingSignIn, setLoadingSignIn] = useState(false)
+
+  const handleClickBack = () => {
 		Router.push("/")
   }
 
   const handleClickSignIn = () => {
+    setLoadingSignIn(true)
+    logIn({email: email, password_hash: password})
+      .then(res => {
+        if (res.data.success == true) {
+          Router.push("/")
+        }
+      })
+      .finally(() => setLoadingSignIn(false))
   }
 
   return(
@@ -49,17 +66,19 @@ const SignUp  = props => {
 
         <div className="sign-form core-dark-bg">
           <div className="sign-form--content">
-            <Input className="mb-10" placeholder="Username"/>
-            <Input className="mb-10" placeholder="Password"/>
+            <Input className="mb-10" placeholder="Email" onChange={setEmail}/>
+            <Input.Password className="mb-10" placeholder="Password" onChange={setPassword}/>
           </div>
         </div>
         <div className="is-flex is-flex--vcenter is-flex--end mt-15">
-          <Button className="button-register" type="primary" size="large" onClick={handleClickSignIn}>Sign In</Button>
+          <Button className="button-register" type="primary" size="large" onClick={handleClickSignIn}>
+            { loadingSignIn ? <Icon type="loading"/> : "Sign In" }
+          </Button>
         </div>
       </div>
     </div>
   )
 }
 
-export default HOC(SignUp)
+export default connect(null, { logIn })(HOC(SignUp))
 

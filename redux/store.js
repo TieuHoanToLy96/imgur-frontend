@@ -4,7 +4,7 @@ import withRedux from "next-redux-wrapper"
 
 import rootReducer from "./reducers"
 
-const initStore = (initState = {}) => {
+export const store = (initState = {}) => {
   return createStore(
     rootReducer,
     initState,
@@ -17,6 +17,7 @@ const initStore = (initState = {}) => {
   )
 }
 
-export default (mapStateToProps, mapDispatchToProps) => {
-  return (component) => withRedux(initStore, mapStateToProps, mapDispatchToProps)(component)
+export const connectRedux = (mapStateToProps, mapDispatchToProps) => {
+  return (component) => withRedux(store, mapStateToProps, mapDispatchToProps)(component)
 }
+
