@@ -6,6 +6,9 @@
   font-weight: 500;
   &-center {
     width: 450px;
+    @media screen and (max-width: 600px) {
+      display: none !important;
+    }
     .ant-input-suffix {
       font-size: 20px;
       color: $color-white
@@ -35,6 +38,7 @@
     }
     .user {
       &-avatar-default {
+        text-transform: uppercase;
         background-image: url(https://i.imgur.com/XzARrBw_d.png?maxwidth=290&fidelity=grand);
       }
       &-name {
@@ -52,14 +56,30 @@
         }
       }
     }
+    .add-post {
+      width: 120px;
+    }
     .sign {
       &-up {
-        min-width: 108px;
+        position: relative;
         border-radius: 3px;
         font-size: 15px;
         font-weight: 500;
         background-color: #1bb76e;
         box-shadow: 0 6px 10px 0 rgba(27,28,30,.31);
+        &:hover {
+          &:before {
+              content: "";
+              background-color: #fff;
+              position: absolute;
+              right: 0;
+              left: 0;
+              top: 0;
+              bottom: 0;
+              opacity: .1;
+              pointer-events: none;
+          } 
+        }
       }
       &-action {
         cursor: pointer;
@@ -71,3 +91,43 @@
     }
   }
 }
+
+  .ant-dropdown {
+    width: 150px;
+    .ant-dropdown-menu {
+      border-radius: 6px;
+      background-color: #53565d;
+      box-shadow: 0 9px 25px 0 rgba(0,0,0,.78);
+    }
+		.dropdown-option {
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: .4px;
+			padding-bottom: 4px;
+			padding-top: 4px;
+			color: #e2e5ea;
+			height: 26px !important;
+      background-color: #565f6e;
+		}
+		.dropdown-option:nth-child(1) {
+			padding-bottom: 5px;
+		}
+    .ant-dropdown-menu-item { 
+      cursor: pointer;
+      display: block;
+			height: 33px;
+      letter-spacing: 1px;
+      padding-left: 21px;
+      padding-right: 10px;
+			color: $color-white;
+      &:hover {
+        background-color: hsla(0,0%,80%,.29);
+      }
+			i {
+				color: $color-white;
+			}
+      a {
+        color: $color-white;
+      }
+    }
+  }

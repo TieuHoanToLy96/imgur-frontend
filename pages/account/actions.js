@@ -2,7 +2,6 @@ import axios from "axios"
 import Cookies from "js-cookie"
 
 import Notification from "/components/Notification/index"
-import { sendPost } from "/utils/request"
 import { getHostName } from "/utils/tools"
 
 export const authAccount = token => {

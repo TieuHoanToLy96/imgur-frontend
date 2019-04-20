@@ -10,12 +10,21 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
 	const server = express()
   server.use(cookieParser())
+  
+  const authAccount = (req, res, next) => {
+    jwt = req.cookies.jwt
+    if (!jwt) {
+      res.redirect("/")
+    } else {
+      next()
+    }
+  }
 
+  server.get("/account/info", authAccount, (req, res) => handle(req, res))
   server.get("/account/sign-in", (req, res) => handle(req, res))
   server.get("/account/sign-up", (req, res) => handle(req, res)) 
   server.get("/", (req, res) => handle(req, res))
 	server.get('*', (req, res) => handle(req, res))
-
 	server.listen(port, (err) => {
 		if (err) throw err
 		console.log(`Server is running on http://localhost:${port}`)

@@ -3,7 +3,6 @@ import Router from "next/router"
 import { useState } from "react"
 import { connect } from "react-redux"
 
-import "/static/style/main.scss";
 import HOC from "/hoc/index"
 import Notification from "/components/Notification/index"
 import { createAccount } from "/pages/account/actions"
@@ -88,7 +87,7 @@ const SignUp = props => {
             <Input className="mb-10" placeholder="Username" onChange={setUserName} />
             <Input className="mb-10" placeholder="Email" onChange={setEmail} />
             <Input.Password className="mb-10" placeholder="Password" onChange={setPassword} />
-            <Input.Password className="mb-10" placeholder="Retype Password" onChange={setConfirmPassword} />
+            <Input.Password placeholder="Retype Password" onChange={setConfirmPassword} />
           </div>
         </div>
         <div className="is-flex is-flex--vcenter is-flex--end mt-5">
@@ -101,11 +100,9 @@ const SignUp = props => {
     </div>
   )
 }
-
 const mapStateToProps = state => {
   return {
-
+    account: state.account.info
   }
 }
-
-export default connect(mapStateToProps, { createAccount })(HOC(SignUp))
+export default connect(null, { createAccount })(HOC(SignUp, true))

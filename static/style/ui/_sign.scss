@@ -79,6 +79,8 @@
   &--content {
     padding: 15px;
     .ant-input-password {
+      height: 32px;
+      box-sizing: border-box;
       .ant-input-suffix {
         color: $color-white;
         top: 17px;

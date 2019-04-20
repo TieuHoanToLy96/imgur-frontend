@@ -3,12 +3,11 @@ import Router from "next/router"
 import { useState } from "react"
 import { connect } from "react-redux"
 
-import "/static/style/main.scss";
 import HOC from "/hoc/index"
 import { useInput } from "/hook/index"
 import { logIn } from  "/pages/account/actions"
 
-const SignUp  = props => {
+const SignIn = props => {
   const { logIn } = props
   const [email, setEmail] = useInput("")
   const [password, setPassword] = useInput("")
@@ -80,5 +79,10 @@ const SignUp  = props => {
   )
 }
 
-export default connect(null, { logIn })(HOC(SignUp))
+const mapStateToProps = state => {
+  return {
+    account: state.account.info
+  }
+}
+export default connect(mapStateToProps, { logIn })(HOC(SignIn, true))
 
