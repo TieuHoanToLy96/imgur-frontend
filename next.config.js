@@ -9,6 +9,3 @@ module.exports = withSass({
     includePaths: ["/static/style/main.scss"]
   }
 })
-module.exports = {
-  target: 'serverless'
-};

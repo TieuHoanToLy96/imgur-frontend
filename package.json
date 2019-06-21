@@ -1,9 +1,9 @@
 {
+  "homepage": "http://TieuHoanToLy96.github.io/imgur-frontend",
   "main": "server.js",
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "now-build": "next build",
     "start": "NODE_ENV=production node server.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
