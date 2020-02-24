@@ -45,7 +45,7 @@ const AccountInfo = props => {
         fileList={[]}
         beforeUpload={handleBeforeUpload}
         onChange={handleChange}>
-        uploadButton
+        {uploadButton}
       </Upload>
     </div>
   )

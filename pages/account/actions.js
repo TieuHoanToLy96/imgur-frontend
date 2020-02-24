@@ -6,7 +6,7 @@ import { getHostName } from "/utils/tools"
 
 export const authAccount = token => {
   return dispatch => {
-    let data = {token: token}
+    let data = { token: token }
     const url = `${getHostName()}/api/v1/account/me?accessToken=${token}`
     let promise = new Promise((resolve, reject) => {
       axios({
@@ -24,17 +24,19 @@ export const authAccount = token => {
             dispatch({
               type: "ACCOUNT::SIGN_IN_FAILED"
             })
+
+            Notification.errorNonStrict(res, "Xác thực tài khoản thất bại")
           }
           resolve(res)
         })
         .catch(error => {
-          Notification.errorStrict(error)
+          Notification.errorStrict(error, "Xác thực tài khoản thất bại")
           reject(error)
         })
     })
     return promise
   }
- }
+}
 
 export const createAccount = data => {
   return dispatch => {
@@ -47,7 +49,7 @@ export const createAccount = data => {
         data
       })
         .then(res => {
-          if (res.status == 200 && res.data.success == true) { 
+          if (res.status == 200 && res.data.success == true) {
             dispatch({
               type: "ACCOUNT::CREATE_ACCOUNT_SUCCESS",
               payload: res.data.data
@@ -57,22 +59,21 @@ export const createAccount = data => {
             dispatch({
               type: "ACCCOUNT::CREATE_ACCOUNT_FAILED"
             })
-            Notification.error(res.data.message || "Xảy ra lỗi khi tạo tài khoản")
+            Notification.errorNonStrict(res, "Xảy ra lỗi khi tạo tài khoản")
           }
           resolve(res)
         })
         .catch(error => {
-          Notification.errorStrict(error)
+          Notification.errorStrict(error, "Xảy ra lỗi khi tạo tài khoản")
           reject(error)
         })
     })
-    
     return promise
   }
 }
 
 export const logIn = data => {
-	return dispatch => {
+  return dispatch => {
     const url = `${getHostName()}/api/v1/account/sign_in`
     let promise = new Promise((resolve, reject) => {
       axios({
@@ -93,15 +94,15 @@ export const logIn = data => {
             dispatch({
               type: "ACCOUNT::SIGN_IN_FAILED"
             })
-            Notification.error(res.data.message || "Đăng nhập thất bại")
+            Notification.errorNonStrict(res, "Đăng nhập thất bại")
           }
           resolve(res)
         })
         .catch(error => {
-          Notification.errorStrict(error)
+          Notification.errorStrict(error, "Đăng nhập thất bại")
           reject(error)
         })
     })
     return promise
-	}
+  }
 }
