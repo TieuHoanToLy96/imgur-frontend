@@ -19,8 +19,8 @@ module.exports = {
 
   deploy : {
     production : {
-      user : 'banhbaothitbo',
-      host: '212.83.163.1',
+      user : 'tieuhoantoly',
+      host: '68.183.224.80',
       ref  : 'origin/master',
       repo : 'git@github.com:TieuHoanToLy96/imgur-frontend.git',
       path : '/var/www/production',
