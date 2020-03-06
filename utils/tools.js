@@ -1,3 +1,9 @@
+const dev = process.env.NODE_ENV !== 'production'
+
 export const getHostName = () => {
-    return "http://localhost:8000"
+  if (dev) { 
+    return  "http://localhost:8000"
+  }
+
+  return "https://tieuhoan.dev"
 }
