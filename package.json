@@ -5,8 +5,8 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "setup": "pm2 deploy ecosystem.config.js production setup",
-    "deploy": "pm2 deploy ecosystem.config.js production --force"
+    "release": "pm2 start npm --name imgur -- start",
+    "restart": "pm2 startup"
   },
   "name": "imgur",
   "version": "1.0.0",
