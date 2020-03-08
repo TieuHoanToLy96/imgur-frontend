@@ -1,24 +1,33 @@
-import { notification } from 'antd';
+import { notification, Icon } from "antd"
 
 export default {
   success: (message, description) => {
     notification.success({
       message,
-      description
+      description,
+      className: "noti-success",
+      placement: "bottomRight",
+      icon: <Icon type="check-circle" theme="filled" />
     })
   },
 
-  error: (message, description) => {
+  error: (message, description) =>  {
     notification.error({
       message,
-      description
+      description,
+      className: "noti-error",
+      placement: "bottomRight",
+      icon: <Icon type="close-circle" theme="filled" />
     })
   },
 
   warning: (message, description) => {
     notification.warning({
       message,
-      description
+      description,
+      className: "noti-warning",
+      placement: "bottomRight",
+      icon: <Icon type="warning" theme="filled" />
     })
   },
 
@@ -26,7 +35,10 @@ export default {
     notification.info({
       // className: 'ant-notification-warning',
       message,
-      description
+      description,
+      className: "noti-info",
+      placement: "bottomRight",
+      icon: <Icon type="info-circle" theme="filled" />
     })
   },
 
@@ -35,7 +47,10 @@ export default {
     console.log(err.response)
     notification.error({
       message: err && err.response && err.response.data && err.response.data.message ? err.response.data.message : message,
-      description: err && err.response && err.response.data && err.response.data.reason ? err.response.data.reason : description
+      description: err && err.response && err.response.data && err.response.data.reason ? err.response.data.reason : description,
+      className: "noti-error",
+      placement: "bottomRight",
+      icon: <Icon type="close-circle" theme="filled" />
     })
   },
 
@@ -44,7 +59,10 @@ export default {
     console.log(res.response)
     notification.error({
       message: res && res.data && res.data.message ? res.data.message : message,
-      description: res && res.data && res.data.reason ? res.data.reason : description
+      description: res && res.data && res.data.reason ? res.data.reason : description,
+      className: "noti-error",
+      placement: "bottomRight",
+      icon: <Icon type="close-circle" theme="filled" />
     })
   }
 }

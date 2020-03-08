@@ -1,0 +1,62 @@
+.ant-notification {
+  width: 352px;
+
+  &-notice {
+    padding: 16px;
+    &-message {
+      color: $color-text;
+    }
+  }
+
+  .noti {
+    &-info {
+      background: $color-info-3;
+      border: 1px solid $color-info-o-medium;
+      
+      .anticon-close {
+        color: $color-info-8;
+      }
+      
+      .anticon-info-circle {
+        color: $color-info-8;
+      }
+    }
+    &-error {
+      background: $color-danger-3;
+      border: 1px solid $color-danger-o-medium;
+    
+      .anticon-close {
+        color: $color-danger-8;
+      }
+      
+      .anticon-close-circle {
+        color: $color-danger-8;
+      }
+    }
+
+    &-warning {
+      background: $color-warning-3;
+      border: 1px solid $color-warning-o-medium;
+      
+      .anticon-warning {
+        color: $color-warning-8;
+      }
+    
+      .anticon-close {
+        color: $color-warning-8;
+      }
+    }
+    &-success {
+      background: $color-success-3;
+      border: 1px solid $color-success-o-medium;
+      
+      .anticon-close {
+        color: $color-success-8;
+      }
+      
+      .anticon-check-circle {
+        color: $color-success-8;
+      }
+    }
+  }
+}
