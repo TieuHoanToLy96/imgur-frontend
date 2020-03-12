@@ -1,9 +1,9 @@
 const dev = process.env.NODE_ENV !== 'production'
 
-export const getHostName = isBackend => {
+export const getHostName = () => {
   if (dev) { 
-    return isBackend ? "http://localhost:8000" : "http://localhost:8001"
+    return "http://localhost:8000"
   }
 
-  return isBackend ? "https://backend.tieuhoan.dev" : "https://tieuhoan.dev"
+  return "https://api.tieuhoan.dev"
 }
