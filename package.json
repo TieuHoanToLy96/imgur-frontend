@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "release": "pm2 start npm --name imgur -- start",
-    "restart": "npm run build && pm2 kill && npm run release"
+    "restart": "pm2 kill && npm run release"
   },
   "name": "imgur",
   "version": "1.0.0",

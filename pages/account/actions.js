@@ -8,33 +8,29 @@ export const authAccount = token => {
   return dispatch => {
     let data = { token: token }
     const url = `${getHostName()}/api/v1/account/me?accessToken=${token}`
-    let promise = new Promise((resolve, reject) => {
-      axios({
-        method: "post",
-        url,
-        data
-      })
-        .then(res => {
-          if (res.status == 200 && res.data.success == true) {
-            dispatch({
-              type: "ACCOUNT::SIGN_IN_SUCCESS",
-              payload: res.data.data
-            })
-          } else {
-            dispatch({
-              type: "ACCOUNT::SIGN_IN_FAILED"
-            })
-
-            Notification.errorNonStrict(res, "Xác thực tài khoản thất bại")
-          }
-          resolve(res)
-        })
-        .catch(error => {
-          Notification.errorStrict(error, "Xác thực tài khoản thất bại")
-          reject(error)
-        })
+    axios({
+      method: "post",
+      url,
+      data
     })
-    return promise
+      .then(res => {
+        if (res.status == 200 && res.data.success == true) {
+          dispatch({
+            type: "ACCOUNT::SIGN_IN_SUCCESS",
+            payload: res.data.data
+          })
+        } else {
+          dispatch({
+            type: "ACCOUNT::SIGN_IN_FAILED"
+          })
+
+          Notification.errorNonStrict(res, "Xác thực tài khoản thất bại")
+        }
+        return res
+      })
+      .catch(error => {
+        Notification.errorStrict(error, "Xác thực tài khoản thất bại")
+      })
   }
 }
 
@@ -83,7 +79,7 @@ export const logIn = data => {
       })
         .then(res => {
           if (res.status == 200 && res.data.success == true) {
-            localStorage.setItem("jwt", res.data.token)
+            //localStorage.setItem("jwt", res.data.token)
             Cookies.set("jwt", res.data.token, { expired: 30 })
 
             dispatch({

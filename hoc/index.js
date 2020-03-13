@@ -10,8 +10,16 @@ export default (ChildComponent, isHiddenHeader = false) => {
       let token = null
       if (ctx.isServer) {
         token = ctx.req.cookies.jwt
+       console.log(token, "token")
         if (token) {
           await ctx.store.dispatch(authAccount(token))
+          console.log(ctx.store.getState().info, "aaaaa")
+          if (ctx.store.getState().info) {
+            console.log("dddddddd")
+            return { token }
+          } 
+          
+          return {}
         }
       }
       return {token: token}
