@@ -19,17 +19,17 @@ export const authAccount = token => {
             type: "ACCOUNT::SIGN_IN_SUCCESS",
             payload: res.data.data
           })
+          return {token}
         } else {
           dispatch({
             type: "ACCOUNT::SIGN_IN_FAILED"
           })
 
-          Notification.errorNonStrict(res, "Xác thực tài khoản thất bại")
+          return {}
         }
-        return res
       })
       .catch(error => {
-        Notification.errorStrict(error, "Xác thực tài khoản thất bại")
+        return {}
       })
   }
 }

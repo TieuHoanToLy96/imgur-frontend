@@ -1,7 +1,9 @@
 import Head from "next/head"
+import axios from "axios"
 
 import Header from "/components/Header/index"
 import { authAccount } from "/pages/account/actions"
+import { getHostName } from "/utils/tools"
 import "/static/style/main.scss"
 
 export default (ChildComponent, isHiddenHeader = false) => {
@@ -10,16 +12,34 @@ export default (ChildComponent, isHiddenHeader = false) => {
       let token = null
       if (ctx.isServer) {
         token = ctx.req.cookies.jwt
-       console.log(token, "token")
         if (token) {
-          await ctx.store.dispatch(authAccount(token))
-          console.log(ctx.store.getState().info, "aaaaa")
-          if (ctx.store.getState().info) {
-            console.log("dddddddd")
-            return { token }
-          } 
-          
-          return {}
+          let dispatch = ctx.store.dispatch
+
+          let data = { token: token }
+          const url = `${getHostName()}/api/v1/account/me?accessToken=${token}`
+          await axios({
+            method: "post",
+            url,
+            data
+          })
+            .then(res => {
+              if (res.status == 200 && res.data.success == true) {
+                dispatch({
+                  type: "ACCOUNT::SIGN_IN_SUCCESS",
+                  payload: res.data.data
+                })
+                return {token: token}
+              } else {
+                dispatch({
+                  type: "ACCOUNT::SIGN_IN_FAILED"
+                })
+                return {}
+              }
+              
+            })
+            .catch(error => {
+              return {}
+            })
         }
       }
       return {token: token}
