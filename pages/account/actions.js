@@ -1,8 +1,11 @@
 import axios from "axios"
-import Cookies from "js-cookie"
+//import Cookies from "js-cookie"
+import { Cookies } from 'react-cookie'
 
 import Notification from "/components/Notification/index"
 import { getHostName } from "/utils/tools"
+
+const cookies = new Cookies()
 
 export const authAccount = token => {
   return dispatch => {
@@ -79,9 +82,9 @@ export const logIn = data => {
       })
         .then(res => {
           if (res.status == 200 && res.data.success == true) {
-            //localStorage.setItem("jwt", res.data.token)
-            Cookies.set("jwt", res.data.token, { expired: 30 })
-
+            //localStorage.set("jwt", res.data.token)
+            //Cookies.set("jwt", res.data.token, { expired: 30 })
+            cookies.set("jwt", res.data.token)
             dispatch({
               type: "ACCOUNT::SIGN_IN_SUCCESS",
               payload: res.data.account

@@ -35,6 +35,8 @@
     "nodemon": "^1.18.10",
     "now": "^15.5.0",
     "react": "^16.8.4",
+    "react-cookie": "^4.0.3",
+    "react-cookies": "^0.1.1",
     "react-dom": "^16.8.4",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",

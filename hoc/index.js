@@ -1,17 +1,24 @@
 import Head from "next/head"
 import axios from "axios"
+import { Cookies } from 'react-cookie'
 
 import Header from "/components/Header/index"
 import { authAccount } from "/pages/account/actions"
 import { getHostName } from "/utils/tools"
 import "/static/style/main.scss"
 
+const cookies = new Cookies()
 export default (ChildComponent, isHiddenHeader = false) => {
   class Hoc extends React.Component {
     static async getInitialProps(ctx) {
       let token = null
       if (ctx.isServer) {
-        token = ctx.req.cookies.jwt
+        if (ctx.req) {
+          token = ctx.req.cookies.jwt
+        } else {
+          token = cookies.get('token')
+        } 
+
         if (token) {
           let dispatch = ctx.store.dispatch
 
