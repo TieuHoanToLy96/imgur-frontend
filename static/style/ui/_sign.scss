@@ -16,7 +16,8 @@
   }
   &-logo {
     margin: 20px auto 90px;
-    width: 187px;
+    display: flex;
+    justify-content: center;
     height: 65px;
   }
   &-callout {

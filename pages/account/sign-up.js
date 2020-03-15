@@ -55,7 +55,7 @@ const SignUp = props => {
       </div>
       <div className="sign-container">
         <div className="sign-logo">
-          <img src="https://s.imgur.com/images/access/access-logo.png" />
+          <img src="https://statics.pancake.vn/web-media/32/f4/af/57/1c5bec9eeacc09912a20d79b742e5156b8b073b8e71103b77544a2d9.png" />
         </div>
         <div className="sign-callout is-flex is-flex--hcenter">
           Register with
