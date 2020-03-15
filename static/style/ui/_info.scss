@@ -1,0 +1,48 @@
+.info-header {
+  &--wrapper {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("https://imgur.com/user/tieuhoantoly/cover");
+  }
+  &--user {
+    &__avatar {
+      height: 128px;
+      width: 128px;
+      border-radius: 50%;
+      font-size: 56px;
+      font-weight: 800;
+      color: $color-white;
+      background-image: url(https://i.imgur.com/XzARrBw_d.png?maxwidth=290&fidelity=grand);
+    }
+
+    &__name {
+      font-size: 40px;
+      font-weight: 600;
+      color: $color-white;
+    }
+  }
+
+  &--tab {
+    .ant-tabs-tab {
+      color: $color-white;
+
+      &:hover {
+        color: $color-white;
+        opacity: 0.8;
+      }
+    }
+    .ant-tabs-tab-active {
+      font-weight: 600;
+    }
+    .ant-tabs-bar {
+      border-bottom-style: none;
+    }
+    .ant-tabs-ink-bar {
+      height: 4px;
+      background-color: $color-white;
+      border-radius: 2px;
+    }
+    .ant-tabs-nav-scroll {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
