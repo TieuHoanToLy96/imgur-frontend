@@ -49,9 +49,11 @@ export const createAccount = data => {
       })
         .then(res => {
           if (res.status == 200 && res.data.success == true) {
+            cookies.set("jwt", res.data.data.token)
+            
             dispatch({
               type: "ACCOUNT::CREATE_ACCOUNT_SUCCESS",
-              payload: res.data.data
+              payload: res.data.data.account
             })
             Notification.success(res.data.message || "Tạo tài khoản thành công")
           } else {
