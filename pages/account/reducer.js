@@ -14,6 +14,10 @@ const reducerAccount = produce((draft, action) => {
       draft.info = action.payload
       break
     }
+    case "ACCOUNT::SET_ACCOUNT": {
+      draft.info = action.payload
+      break
+    }
   }
 }, initState)
 

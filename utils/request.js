@@ -1,10 +1,13 @@
 import axios from "axios";
+import { Cookies } from "react-cookie"
 const { CancelToken } = axios;
+
+const cookies = new Cookies()
 
 export const sendGet = (url, params, _token) => {
   let token;
 
-  if (!_token) token = localStorage.getItem("jwt");
+  if (!_token) token = cookies.get("jwt")
   else token = _token;
 
   let cancel;
@@ -36,7 +39,7 @@ export const sendGet = (url, params, _token) => {
 export const sendPost = (url, params, data, _token) => {
   let token;
 
-  if (!_token) token = localStorage.getItem("jwt");
+  if (!_token) token = cookies.get("jwt")
   else token = _token;
 
   let cancel;
@@ -70,7 +73,7 @@ export const sendPost = (url, params, data, _token) => {
 
 export const sendPut = (url, params, data, _token) => {
   let token;
-  if (!_token) token = localStorage.getItem("jwt");
+  if (!_token) token = cookies.get("jwt")
   else token = _token;
 
   let cancel;
@@ -105,7 +108,7 @@ export const sendPut = (url, params, data, _token) => {
 export const sendDelete = (url, params, _token) => {
   let token;
 
-  if (!_token) token = localStorage.getItem("jwt");
+  if (!_token) token = cookies.get("jwt")
   else token = _token;
 
   let cancel;

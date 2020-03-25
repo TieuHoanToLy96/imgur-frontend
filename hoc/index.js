@@ -17,7 +17,7 @@ export default (ChildComponent, isHiddenHeader = false) => {
           token = ctx.req.cookies.jwt
         } else {
           token = cookies.get('token')
-        } 
+        }
 
         if (token) {
           let dispatch = ctx.store.dispatch
@@ -35,21 +35,20 @@ export default (ChildComponent, isHiddenHeader = false) => {
                   type: "ACCOUNT::SIGN_IN_SUCCESS",
                   payload: res.data.data
                 })
-                return {token: token}
+                return { token: token }
               } else {
                 dispatch({
                   type: "ACCOUNT::SIGN_IN_FAILED"
                 })
                 return {}
               }
-              
+
             })
             .catch(error => {
               return {}
             })
         }
       }
-      return {token: token}
     }
 
     render() {
@@ -57,13 +56,13 @@ export default (ChildComponent, isHiddenHeader = false) => {
         <div>
           <Head>
             <title>Imgur</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <link href="/static/css/antd.min.css" rel='stylesheet' />
-            <link rel="shortcut icon" type="image/png" href="/static/image/favicon/favicon.ico"/>
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossOrigin="anonymous"/>  
+            <link rel="shortcut icon" type="image/png" href="/static/image/favicon/favicon.ico" />
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossOrigin="anonymous" />
           </Head>
           {
-            !isHiddenHeader && <Header {...this.props}/>
+            !isHiddenHeader && <Header {...this.props} />
           }
           <ChildComponent {...this.props} />
         </div>

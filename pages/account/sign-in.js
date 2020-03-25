@@ -5,7 +5,8 @@ import { connect } from "react-redux"
 
 import HOC from "/hoc/index"
 import { useInput } from "/hook/index"
-import { logIn } from  "/pages/account/actions"
+import { logIn } from "/pages/account/actions"
+import { setAccount } from "./actions";
 
 const SignIn = props => {
   const { logIn } = props
@@ -14,12 +15,12 @@ const SignIn = props => {
   const [loadingSignIn, setLoadingSignIn] = useState(false)
 
   const handleClickBack = () => {
-		Router.push("/")
+    Router.push("/")
   }
 
   const handleClickSignIn = () => {
     setLoadingSignIn(true)
-    logIn({email: email, password_hash: password})
+    logIn({ email: email, password_hash: password })
       .then(res => {
         if (res.data.success == true) {
           Router.push("/")
@@ -28,15 +29,15 @@ const SignIn = props => {
       .finally(() => setLoadingSignIn(false))
   }
 
-  return(
+  return (
     <div className="sign">
       <div className="back-imgur is-cursor is-flex is-flex--vcenter" onClick={handleClickBack}>
-        <img className="mr-10" src="https://s.imgur.com/images/access/back-to-imgur.png"/>
-				back to Imgur
+        <img className="mr-10" src="https://s.imgur.com/images/access/back-to-imgur.png" />
+        back to Imgur
       </div>
       <div className="sign-container">
         <div className="sign-logo">
-          <img src="https://statics.pancake.vn/web-media/32/f4/af/57/1c5bec9eeacc09912a20d79b742e5156b8b073b8e71103b77544a2d9.png"/>
+          <img src="https://statics.pancake.vn/web-media/32/f4/af/57/1c5bec9eeacc09912a20d79b742e5156b8b073b8e71103b77544a2d9.png" />
         </div>
         <div className="sign-callout is-flex is-flex--hcenter">
           Sign In with
@@ -65,13 +66,13 @@ const SignIn = props => {
 
         <div className="sign-form core-dark-bg">
           <div className="sign-form--content">
-            <Input className="mb-10" placeholder="Email" onChange={setEmail}/>
-            <Input.Password className="mb-10" placeholder="Password" onChange={setPassword}/>
+            <Input className="mb-10" placeholder="Email" onChange={setEmail} />
+            <Input.Password className="mb-10" placeholder="Password" onChange={setPassword} />
           </div>
         </div>
         <div className="is-flex is-flex--vcenter is-flex--end mt-15">
           <Button className="button-register" type="primary" size="large" onClick={handleClickSignIn}>
-            { loadingSignIn ? <Icon type="loading"/> : "Sign In" }
+            {loadingSignIn ? <Icon type="loading" /> : "Sign In"}
           </Button>
         </div>
       </div>

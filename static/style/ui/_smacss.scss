@@ -26,6 +26,9 @@
     &--hcenter {
       justify-content: center
     }
+    &--wrap {
+      flex-wrap: wrap
+    }
   }
   &-cursor {
     cursor: pointer;
@@ -40,7 +43,6 @@
   }
 }
 
-  
 .mb {
   &-5 {
     margin-bottom: 5px

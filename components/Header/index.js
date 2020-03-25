@@ -1,9 +1,11 @@
 import { Menu, Dropdown, Input, Button, Icon } from "antd"
 import Router from "next/router"
-import Cookies from "js-cookie"
+import { connect } from "react-redux"
+
+import { logOut } from "/pages/account/actions"
 
 const Header = props => {
-  const { account } = props
+  const { account, logOut } = props
 
   const handleClickSignIn = () => {
     Router.push("/account/sign-in")
@@ -17,10 +19,10 @@ const Header = props => {
     Router.push("/account/info")
   }
 
-  const handleClickItem = ({key}) => {
+  const handleClickItem = ({ key }) => {
     switch (key) {
       case "sign-out": {
-        Cookies.set("jwt", "")
+        logOut()
         Router.push("/")
         break;
       }
@@ -48,7 +50,7 @@ const Header = props => {
         <Menu.Item key="settings" className="dropdown-option is-flex is-flex--vcenter mt-15">
           <Icon type="setting" /> <a> Settings </a>
         </Menu.Item>
-        <Menu.Item key="sign-out"className="dropdown-option is-flex is-flex--vcenter">
+        <Menu.Item key="sign-out" className="dropdown-option is-flex is-flex--vcenter">
           <Icon type="poweroff" /> <a> Sign Out </a>
         </Menu.Item>
       </Menu>
@@ -63,10 +65,10 @@ const Header = props => {
           {
             account &&
             <div className="add-post sign-up ml-20 is-flex is-flex--center">
-              <img className="mr-10" src="https://s.imgur.com/desktop-assets/desktop-assets/icon-new-post.13ab64f9f36ad8f25ae3544b350e2ae1.svg"/>
+              <img className="mr-10" src="https://s.imgur.com/desktop-assets/desktop-assets/icon-new-post.13ab64f9f36ad8f25ae3544b350e2ae1.svg" />
               New post
             </div>
-          }  
+          }
         </div>
 
       </div>
@@ -139,4 +141,4 @@ const Header = props => {
   )
 }
 
-export default Header
+export default connect(null, { logOut })(Header)
