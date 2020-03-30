@@ -1,9 +1,11 @@
-import {combineReducers} from "redux"
+import { combineReducers } from "redux"
 import reducerIndex from "/pages/reducer.js"
 import reducerAccount from "/pages/account/reducer"
+import reducerPost from "/pages/posts/reducer"
 
 const appReducer = combineReducers({
-  account: reducerAccount
+  account: reducerAccount,
+  post: reducerPost
 })
 
 const rootReducer = (state, action) => {

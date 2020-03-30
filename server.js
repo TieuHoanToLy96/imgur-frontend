@@ -19,7 +19,15 @@ app.prepare().then(() => {
       next()
     }
   }
-
+  server.get("/posts/new", (req, res) => {
+    return app.render(req, res, `/posts/edit`, { isCreatePost: true })
+  })
+  server.get("/posts/:postId/edit", (req, res) => {
+    return app.render(req, res, `/posts/edit`, { postId:req.params.postId, isCreatePost: true })
+  })
+  server.get("/account/:account_url/:key", (req, res) => {
+    return app.render(req, res, `/account/${req.params.key}`, { accountUrl: req.params.account_url, key: req.params.key })
+  })
   server.get("/account/hlogin", (req, res) => handle(req, res))
   server.get("/account/info", authAccount, (req, res) => handle(req, res))
   server.get("/account/sign-in", (req, res) => handle(req, res))

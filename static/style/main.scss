@@ -1,9 +1,9 @@
 @import "./ui/base";
 
 body {
-  position:fixed;
-  font-family: sans-serif !important;
+  font-family: Proxima Nova ExtraBold,Helvetica Neue,Helvetica,Arial,sans-serif;
   margin: 0px !important;
+  background: $color-bg-dark;
 }
 
 .container {

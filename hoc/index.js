@@ -3,7 +3,6 @@ import axios from "axios"
 import { Cookies } from 'react-cookie'
 
 import Header from "/components/Header/index"
-import { authAccount } from "/pages/account/actions"
 import { getHostName } from "/utils/tools"
 import "/static/style/main.scss"
 
@@ -16,7 +15,7 @@ export default (ChildComponent, isHiddenHeader = false) => {
         if (ctx.req) {
           token = ctx.req.cookies.jwt
         } else {
-          token = cookies.get('token')
+          token = cookies.get("jwt")
         }
 
         if (token) {
@@ -35,20 +34,24 @@ export default (ChildComponent, isHiddenHeader = false) => {
                   type: "ACCOUNT::SIGN_IN_SUCCESS",
                   payload: res.data.data
                 })
-                return { token: token }
+                return { token: token, query: ctx.query }
               } else {
                 dispatch({
                   type: "ACCOUNT::SIGN_IN_FAILED"
                 })
-                return {}
+                return { query: ctx.query }
               }
 
             })
             .catch(error => {
-              return {}
+              console.log(error)
+              return { query: ctx.query }
             })
         }
+
+        return { query: ctx.query }
       }
+      return { query: ctx.query }
     }
 
     render() {

@@ -89,11 +89,12 @@ export const logOut = () => {
 
 export const updateAccount = data => {
   const url = `${getHostName()}/api/v1/account/update`
-  return dispatch => {
+  return (dispatch, getState) => {
     return sendPost(url, {}, { account: data })
       .then(res => {
         if (res.status == 200 && res.data.success == true) {
           dispatch(setAccount(res.data.data.account))
+          dispatch(setUser(res.data.data.account))
           Notification.success(res.data.message || "Update account success")
         } else {
           dispatch({
@@ -115,4 +116,30 @@ export const setAccount = account => {
     type: "ACCOUNT::SET_ACCOUNT",
     payload: account
   })
-} 
+}
+
+export const setUser = user => {
+  return ({
+    type: "ACCOUNT::SET_USER",
+    payload: user
+  })
+}
+
+export const getUser = accountUrl => {
+  const url = `${getHostName()}/api/v1/account/get_user?account_url=${accountUrl}`
+  console.log(url, "getuser")
+  return dispatch => {
+    return sendGet(url)
+      .then(res => {
+        console.log(res)
+        if (res.status == 200 && res.data.success == true) {
+          dispatch(setUser(res.data.user))
+        } else {
+
+        }
+      })
+      .catch(error => {
+        Notification.errorStrict(error, "Get user failed failed")
+      })
+  }
+}

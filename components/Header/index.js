@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import { logOut } from "/pages/account/actions"
 
 const Header = props => {
-  const { account, logOut } = props
+  const { user, account, logOut } = props
 
   const handleClickSignIn = () => {
     Router.push("/account/sign-in")
@@ -16,7 +16,11 @@ const Header = props => {
   }
 
   const handleClickAvatar = () => {
-    Router.push("/account/info")
+    Router.push(`/account/${account.account_url}/posts`)
+  }
+
+  const handleCreatePost = () => {
+    Router.push("/posts/new")
   }
 
   const handleClickItem = ({ key }) => {
@@ -24,7 +28,19 @@ const Header = props => {
       case "sign-out": {
         logOut()
         Router.push("/")
-        break;
+        break
+      }
+      case "posts": {
+        Router.push(`/account/${props.account.account_url}/posts`)
+        break
+      }
+      case "comments": {
+        Router.push(`/account/${props.account.account_url}/comments`)
+        break
+      }
+      case "favorites": {
+        Router.push(`/account/${props.account.account_url}/favorites`)
+        break
       }
     }
   }
@@ -35,10 +51,10 @@ const Header = props => {
         <Menu.Item key="posts">
           <a>Posts</a>
         </Menu.Item>
-        <Menu.Item key="favorite">
+        <Menu.Item key="favorites">
           <a>Favorite</a>
         </Menu.Item>
-        <Menu.Item key="comment">
+        <Menu.Item key="comments">
           <a>Comment</a>
         </Menu.Item>
         <Menu.Item key="about">
@@ -63,45 +79,47 @@ const Header = props => {
         <div className="header-item--content">
           <img onClick={() => Router.push("/")} src="https://s.imgur.com/desktop-assets/desktop-assets/Navbar-logo.9c748ecccb607d5f3f00d7eee7a22f42.svg" />
           {
-            account &&
-            <div className="add-post sign-up ml-20 is-flex is-flex--center">
-              <img className="mr-10" src="https://s.imgur.com/desktop-assets/desktop-assets/icon-new-post.13ab64f9f36ad8f25ae3544b350e2ae1.svg" />
-              New post
+            account && user && account.id == user.id &&
+            <div className="add-post sign-up ml-20 is-flex is-flex--center" onClick={handleCreatePost}>
+              <img className="add-post--image mr-10" src="https://s.imgur.com/desktop-assets/desktop-assets/icon-new-post.13ab64f9f36ad8f25ae3544b350e2ae1.svg" />
+              <div className="add-post--text">
+                New post
+              </div>
             </div>
           }
         </div>
-
       </div>
+
       <div className="header-item header-center">
         <div className="header-item--content">
           <Input
             placeholder="Images, #tags, @users oh my!"
-            suffix={<Icon type="search" />}
-          />
+            suffix={<Icon type="search" />} />
         </div>
       </div>
+
       <div className="header-item header-right">
         <div className="header-item--content">
           <div className="button-link is-flex is-flex--vcenter">
             <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-leaderboard.2c7c197ab7cc58a23c14b83dcc3025a9.svg" />
           </div>
           {
-            account &&
+            account.id &&
             <div className="button-link is-flex is-flex--vcenter">
               <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-chat.f91379e0c16bc9fe39a41956da9457c4.svg" />
             </div>
           }
           {
-            account &&
+            account.id &&
             <div className="button-link is-flex is-flex--vcenter">
               <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-notifications.aeebfeab4400518b87f939217d186198.svg" />
             </div>
           }
           {
-            account &&
+            account.id &&
             <div className="user is-flex is-flex--vcenter ml-10">
               {
-                account.user_name &&
+                account.user_name && account.user_name &&
                 <div className="user-name">
                   {account.user_name}
                 </div>
@@ -110,7 +128,7 @@ const Header = props => {
                 account.avatar ?
                   <Dropdown className="user-dropdown" overlay={renderUserDropdown()}>
                     <div onClick={handleClickAvatar} className="user-avatar">
-                      <img className="user-avatar" src={account.avatar} />
+                      <img src={account.avatar} />
                     </div>
                   </Dropdown>
                   :
@@ -124,13 +142,13 @@ const Header = props => {
           }
 
           {
-            !account &&
+            !account.id &&
             <div className="sign-action sign-in" onClick={handleClickSignIn}>
               Sign in
             </div>
           }
           {
-            !account &&
+            !account.id &&
             <div className="sign-action sign-up" onClick={handleClickSignUp}>
               Sign up
             </div>

@@ -2,8 +2,12 @@
 
 .header {
   height: 65px;
-  background-color: $color-bg-dark;
+  background-color: $color-core-dark;
   font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
   &-center {
     width: 450px;
     @media screen and (max-width: 600px) {
@@ -47,6 +51,7 @@
       &-avatar {
         margin-left: 9px;
         border-radius: 50%;
+        overflow: hidden;
         width: 37px;
         height: 37px;
         background-size: cover;
@@ -129,5 +134,9 @@
       a {
         color: $color-white;
       }
+    }
+
+    .delete {
+      color: $color-danger-o-medium;
     }
   }

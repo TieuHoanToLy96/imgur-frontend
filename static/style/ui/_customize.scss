@@ -105,3 +105,9 @@
   justify-content: center;
   color: $color-white;
 }
+
+.ant-input {
+  &:focus {
+    box-shadow: none;
+  }
+}

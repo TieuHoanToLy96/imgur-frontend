@@ -185,7 +185,7 @@ const ModalSelectAvatar = props => {
       title="Edit avatar"
       onCancel={handleCloseModalAva}
       footer={[
-        <div className="modal-footer-wrapper">
+        <div key="1" className="modal-footer-wrapper">
           <div className="modal-footer">
             <Button className="modal-footer--cancel" size="large" onClick={handleCloseModalAva}>
               Cancel

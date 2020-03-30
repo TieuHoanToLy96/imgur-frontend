@@ -164,3 +164,118 @@
     }
   }
 }
+
+.modal-upload {
+  &--close {
+    position: absolute;
+    top: -35px;
+    right: -44px;
+    z-index: 2;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &--drag {
+    width: 100%;
+    height: 320px;
+
+    &__image {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      left: 0px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        height: 320px;
+      }
+    }
+  }
+  &--select {
+    padding: 24px 0px 40px 0px;
+  }
+  &--divider {
+    width: 150px;
+    margin: auto;
+
+    .ant-divider-with-text {
+      font-size: 14px;
+      margin: 0px 0px 20px 0px;
+      &::before {
+        opacity: 0.12;
+      }
+      &:after {
+        opacity: 0.12;
+      }
+    }
+    .ant-divider-inner-text {
+      color: $color-white;
+    }
+  }
+
+  &--choose {
+    height: 40px;
+    color: $color-white;
+    font-size: 14px;
+    letter-spacing: .02em;
+    cursor: pointer;
+
+    &:hover {
+      opacity: .75;
+    }
+  }
+
+  &--url {
+    .ant-input {
+      border-radius: 3px;
+      width: 320px;
+      background: #272a33;
+      color: $color-white;
+      text-align: center;
+
+      &::placeholder {
+        color: $color-white;
+        text-align: center
+      }
+
+      &:hover {
+        opacity: .75;
+        border: 1px solid rgba(200,191,255,.5);
+      }
+
+      &:focus {
+        opacity: 1;
+        border: 1px solid #c8bfff;
+      }
+    }
+  }
+
+  .ant-upload-drag {
+    height: 72px;
+    width: 300px;
+    background: transparent;
+    border: 3px dashed hsla(0,0%,100%,.4);
+
+    &:hover {
+      border: 3px dashed hsla(0,0%,100%,.4) !important;
+    }
+
+    &-container {
+      color: #fff;
+      letter-spacing: .02em;
+      font-size: 16px;
+    }
+  }
+  
+  .ant-upload-select {
+    width: 100%;
+  }
+
+  .ant-modal-body {
+    padding: 0px;
+  }
+}

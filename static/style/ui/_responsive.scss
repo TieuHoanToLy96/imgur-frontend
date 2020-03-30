@@ -51,3 +51,78 @@
     }
   }
 }
+
+@media screen and (max-width: 400px) {
+  .modal-upload {
+    &--close {
+      top: -10px;
+      right: -18px;
+    }
+    .ant-modal-content {
+      border-top-right-radius: 25px;
+      overflow: hidden;
+    }
+  }
+  .info-header {
+    &--wrapper {
+      padding-top: 32px;
+    }
+    &--tab {
+      margin-top: 24px;
+      .ant-tabs-nav-container {
+        padding: 0px;
+      }
+      .ant-tabs-tab {
+        margin-right: 0px;
+      }
+    }
+  }
+
+  .header-item {
+    .user {
+      &-avatar {
+        overflow: hidden;
+        width: 32px;
+        height: 32px; 
+      }
+    }
+    .add-post {
+      width: auto;
+      img {
+        width: 24px;
+        margin: 0;
+      }
+      &--text {
+        display: none;
+      }
+    }
+    &--content {
+      .button-link {
+        img {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+  .header-left {
+    img {
+      width: 64px;
+    }
+  }
+
+  .post {
+    flex-direction: column-reverse;
+
+    &-content {
+      width: 100%;
+    }
+
+    &-action {
+      width: 100%;
+      margin-left: 0px; 
+      position: relative;
+      top: 0px;
+    }
+  }
+}

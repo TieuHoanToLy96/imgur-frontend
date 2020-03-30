@@ -1,7 +1,8 @@
 import produce from "immer"
 
 const initState = {
-  info: null
+  info: {},
+  user: {}
 }
 
 const reducerAccount = produce((draft, action) => {
@@ -16,6 +17,10 @@ const reducerAccount = produce((draft, action) => {
     }
     case "ACCOUNT::SET_ACCOUNT": {
       draft.info = action.payload
+      break
+    }
+    case "ACCOUNT::SET_USER": {
+      draft.user = action.payload
       break
     }
   }
