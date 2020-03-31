@@ -29,7 +29,7 @@
     "immer": "^2.1.4",
     "js-cookie": "^2.2.0",
     "luxbar": "^0.3.2",
-    "next": "^8.0.3",
+    "next": "^9.3.3",
     "next-redux-wrapper": "^3.0.0-alpha.2",
     "nginx": "0.0.0",
     "node-sass": "^4.12.0",
