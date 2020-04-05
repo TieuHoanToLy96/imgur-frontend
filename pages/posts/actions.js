@@ -40,9 +40,33 @@ export const getPost = (postId, accountId) => {
   }
 }
 
+export const getPostsUser = params => {
+  return dispatch => {
+    let url = `${getHostName()}/api/v1/article/search`
+    return sendGet(url, params)
+      .then(res => {
+        if (res.status == 200 && res.data.success == true) {
+          dispatch(setPosts(res.data.articles))
+        } else {
+          Notification.errorNonStrict(res, "Get post failed")
+        }
+      })
+      .catch(error => {
+        Notification.errorStrict(error, "Get post failed")
+      })
+  }
+}
+
 export const setEditPost = value => {
   return ({
     type: "POST::SET_EDIT_POST",
     payload: value
   })
+}
+
+export const setPosts = value => {
+  return {
+    type: "POST::SET_POSTS",
+    payload: value
+  }
 }

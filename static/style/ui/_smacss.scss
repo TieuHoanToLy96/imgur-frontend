@@ -2,6 +2,9 @@
   &-fullwidth {
     width: 100%;
   }
+  &-fullheight {
+    height: 100%;
+  }
   &-relative {
     position: relative;
   }
@@ -10,6 +13,9 @@
   }
   &-flex {
     display: flex !important;
+    &--1 {
+      flex: 1
+    }
     &--space-between {
       justify-content: space-between;
     }

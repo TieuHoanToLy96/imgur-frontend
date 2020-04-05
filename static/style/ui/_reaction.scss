@@ -1,0 +1,82 @@
+$reaction-list: angry, flower, haha, like, love, sad, wow;
+$reaction-size: 40;
+
+.like-btn {
+  // width: 44px;
+  // height: 25px;
+  // background: #D0D0D0;
+  position: relative;
+  cursor: pointer;
+  
+  &::before {
+    content: ".";
+    opacity: 0;
+    display: block;
+    width: 100%;
+    height: 10px;
+    position: absolute; 
+    top: -10px; left: 0;
+  }
+
+  .reaction-box {
+    position: absolute;
+    width: 312px; height: 55px;
+    background: $color-white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 28px;
+    left: -25px; bottom: 35px; 
+    display: none;
+    
+    .reaction-icon {
+      display: inline-block;
+      width: $reaction-size * 1px; height: $reaction-size * 1px;
+      background-size: cover;
+      border-radius: 20px;
+      margin: 8px -1px 0 8px;
+      text-align: center;
+      // Animation
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      opacity: 0;
+      transform: translate(0, 100px) scale(0);
+      
+      label {
+        padding: 3px 5px 3px 5px;
+        position: relative;
+        top: -24px;
+        border-radius: 10px;
+        font-size: 11px;
+        color: #FFF;
+        background: #333;
+        visibility: hidden;
+      }
+
+      &--selected {
+        transform: scale(1.4) !important;
+        transform-origin: bottom !important;
+      }
+    }
+  }
+
+  &:hover {
+    .reaction-box {
+      display: block;  
+              
+      .reaction-icon {
+        
+        &.show {
+          opacity: 1;
+          transform: translate(0, 0) scale(1);
+        }
+        
+        &:hover {
+          transform: scale(1.4);
+          transform-origin: bottom;
+
+          label {
+            visibility: visible;
+          }
+        }
+      }
+    }
+  }
+}

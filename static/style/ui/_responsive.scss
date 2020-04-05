@@ -116,6 +116,21 @@
 
     &-content {
       width: 100%;
+
+      &--item {
+        &__action {
+          right: 10px;
+          left: 10px;
+          
+          &--select {
+            margin-right: 0px
+          }
+
+          .ant-input-wrapper {
+            width: 100%;
+          }
+        }
+      }
     }
 
     &-action {
@@ -123,6 +138,16 @@
       margin-left: 0px; 
       position: relative;
       top: 0px;
+    }
+  }
+
+  .modal-preview {
+    &--action {
+      width: 24px;
+      height: 24px;
+    }
+    .ant-modal-body {
+      padding: 8px;
     }
   }
 }
