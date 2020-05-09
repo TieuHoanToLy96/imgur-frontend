@@ -6,7 +6,7 @@ module.exports = withSass({
     config.resolve.alias[''] = path.join(__dirname, '')
     return config
   },
-  sassLoaderOptions: {
-    includePaths: ["/static/style/main.scss"]
-  }
+  // sassLoaderOptions: {
+  //   includePaths: ["/static/style/main.scss"]
+  // }
 })

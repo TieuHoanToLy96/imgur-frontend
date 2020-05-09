@@ -1,9 +1,11 @@
-import { message, Tag, Icon, Input, Switch, Button, Divider, Dropdown, Menu } from "antd"
+import { Avatar, message, Tag, Icon, Input, Switch, Button, Divider, Dropdown, Menu } from "antd"
 import { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import produce from "immer"
 import Router from "next/router"
 
+import Comment from "/components/Comment"
+import ListComment from "/components/ListComment"
 import Reaction from "/components/Reaction"
 import ModalPreviewImage from "/components/ModalPreviewImage"
 import ModalUploadImage from "/components/ModalUploadImage"
@@ -13,7 +15,7 @@ import { createOrUpdatePost, getPost } from "/pages/posts/actions"
 
 const likeSvg =
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4.59998 17.8008C5.02172 17.8071 5.4408 17.869 5.84638 17.9848L8.75358 18.8152C9.18207 18.9377 9.62553 18.9999 10.0712 19H13.9792C15.1691 19 16.3167 18.558 17.1992 17.7598C18.0816 16.9616 18.6362 15.864 18.7552 14.68L18.9952 10.6C19.0376 9.76718 18.7896 8.94544 18.2935 8.27515C17.7975 7.60485 17.0841 7.12756 16.2752 6.9248L15.1112 6.6704C14.851 6.60589 14.62 6.45615 14.4548 6.24505C14.2897 6.03394 14.2 5.77363 14.2 5.5056V2.8C14.2 2.32261 14.0103 1.86477 13.6728 1.52721C13.3352 1.18964 12.8774 1 12.4 1C11.9226 1 11.4647 1.18964 11.1272 1.52721C10.7896 1.86477 10.6 2.32261 10.6 2.8V4.0432C10.6 5.6345 9.96783 7.16062 8.84262 8.28584C7.7174 9.41106 6.19127 10.0432 4.59998 10.0432V17.8008Z" stroke="#4D4D4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M4.59998 17.8008C5.02172 17.8071 5.4408 17.869 5.84638 17.9848L8.75358 18.8152C9.18207 18.9377 9.62553 18.9999 10.0712 19H13.9792C15.1691 19 16.3167 18.558 17.1992 17.7598C18.0816 16.9616 18.6362 15.864 18.7552 14.68L18.9952 10.6C19.0376 9.76718 18.7896 8.94544 18.2935 8.27515C17.7975 7.60485 17.0841 7.12756 16.2752 6.9248L15.1112 6.6704C14.851 6.60589 14.62 6.45615 14.4548 6.24505C14.2897 6.03394 14.2 5.77363 14.2 5.5056V2.8C14.2 2.32261 14.0103 1.86477 13.6728 1.52721C13.3352 1.18964 12.8774 1 12.4 1C11.9226 1 11.4647 1.18964 11.1272 1.52721C10.7896 1.86477 10.6 2.32261 10.6 2.8V4.0432C10.6 5.6345 9.96783 7.16062 8.84262 8.28584C7.7174 9.41106 6.19127 10.0432 4.59998 10.0432V17.8008Z" stroke="#4D4D4D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     <path d="M4.6 8.19995H1V19H4.6V8.19995Z" stroke="#4D4D4D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 
@@ -174,11 +176,17 @@ const EditPost = props => {
                   </Reaction>
                 </div>
 
-
                 <div className="post-interactive--action__item post-interactive--comment is-flex--1">
-                  <i class="far fa-comment"></i> Comment
+                  <i className="far fa-comment"></i> Comment
+                </div>
               </div>
+
+              <div className="is-flex post-interactive--action pl-10 pr-10 pt-10 pb-10">
+                <Avatar className="mr-10" src={account.avatar} />
+                <Comment accountId={account.id} articleId={editPost.id} />
               </div>
+
+              <ListComment comments={editPost.comments || []} />
             </div>
 
             <div className="post-content--add is-flex is-flex--center" onClick={() => setVisibleModalUpload(true)}>

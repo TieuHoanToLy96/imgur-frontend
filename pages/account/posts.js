@@ -37,7 +37,7 @@ const Posts = props => {
   }
 
   const handleSelectPost = id => () => {
-    Router.push(`/posts/${id}`)
+    Router.push(`/posts/${id}/edit`)
   }
 
   const getPosts = (account_id, account_url, type) => {
@@ -75,45 +75,49 @@ const Posts = props => {
   return (
     <LayoutUser {...props} >
       <div className="container">
-        <Menu mode="horizontal">
-          <Menu.Item key="mail">
-            All
-        </Menu.Item>
-          <Menu.Item key="app">
-            Public
-        </Menu.Item>
-        </Menu>
+        <div className="post">
 
-        {/* <div className="post-list"> */}
-        <Masonry
-          className={'post-list'} // default ''
-          elementType={'div'} // default 'div'
-          options={{ gutter: 10 }} // default {}
-          disableImagesLoaded={false} // default false
-          updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-        // imagesLoadedOptions={imagesLoadedOptions} // default {}
-        >
-          {
-            posts.map((el, index) => (
-              <div className="post-item" key={index} onClick={handleSelectPost(el.id)}>
 
-                <img src={el.contents[0].image} />
-                <div className="post-item--detail">
-                  <div className="post-item--detail__title is-flex is-flex--vcenter">
-                    {el.title}
-                  </div>
-                  <div className="is-flex is-flex--space-between  is-flex--vcenter">
-                    <div className="post-item--detail__count">
-                      {el.view_count}
+          <Menu mode="horizontal">
+            <Menu.Item key="mail">
+              Tất cả
+            </Menu.Item>
+            <Menu.Item key="app">
+              Công khai
+            </Menu.Item>
+          </Menu>
+
+          {/* <div className="post-list"> */}
+          <Masonry
+            className={'post-list'} // default ''
+            elementType={'div'} // default 'div'
+            options={{ gutter: 10 }} // default {}
+            disableImagesLoaded={false} // default false
+            updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+          // imagesLoadedOptions={imagesLoadedOptions} // default {}
+          >
+            {
+              posts.map((el, index) => (
+                <div className="post-item" key={index} onClick={handleSelectPost(el.id)}>
+
+                  <img src={el.contents[0].image} />
+                  <div className="post-item--detail">
+                    <div className="post-item--detail__title is-flex is-flex--vcenter">
+                      {el.title}
+                    </div>
+                    <div className="is-flex is-flex--space-between  is-flex--vcenter">
+                      <div className="post-item--detail__count">
+                        {el.view_count}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))
-          }
+              ))
+            }
 
-        </Masonry>
+          </Masonry>
 
+        </div>
       </div>
     </LayoutUser>
   )

@@ -191,7 +191,7 @@ const ModalSelectAvatar = props => {
               Cancel
             </Button>
             <Button className="modal-footer--save" type="primary" size="large" onClick={handleSaveAccount}>
-              {loadingSave ? <Icon type="loading" /> : " Save"}
+              {loadingSave ? <Icon type="loading" /> : "Lưu"}
             </Button>
           </div>
         </div>

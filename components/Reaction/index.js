@@ -1,5 +1,3 @@
-import { Popover } from "antd"
-
 const listReactions = [
   {
     label: "Like",
@@ -37,7 +35,7 @@ const Reaction = props => {
   const { handleChangeReaction } = props
 
   const handleSelectReaction = index => () => {
-    handleChangeReaction(index)
+    handleChangeReaction(index + 1)
   }
 
   const content = (
