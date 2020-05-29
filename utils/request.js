@@ -4,7 +4,7 @@ const { CancelToken } = axios;
 
 const cookies = new Cookies()
 
-export const sendGet = (url, params, _token) => {
+export const sendGet = (url, params, _token, auth = true) => {
   let token;
 
   if (!_token) token = cookies.get("jwt")
@@ -12,7 +12,7 @@ export const sendGet = (url, params, _token) => {
 
   let cancel;
   let promise = new Promise((resolve, reject) => {
-    if (token) {
+    if (token || !auth) {
       axios({
         method: "get",
         url,

@@ -1,11 +1,17 @@
-import { Menu, Dropdown, Input, Button, Icon } from "antd"
+import { Menu, Dropdown, Input, Button, Icon, Select, Avatar } from "antd"
 import Router from "next/router"
 import { connect } from "react-redux"
+import { useEffect, useState } from "react"
 
 import { logOut } from "/pages/account/actions"
+import { search } from "/pages/actions"
+import { useDebounce } from "/hook"
 
 const Header = props => {
-  const { user, account, logOut } = props
+  const [searchTerm, setSearchTerm] = useState("");
+  const debounceSearchTerm = useDebounce(searchTerm, 500);
+
+  const { user, account, homePage, logOut, search } = props
 
   const handleClickSignIn = () => {
     Router.push("/account/sign-in")
@@ -42,6 +48,10 @@ const Header = props => {
         Router.push(`/account/${props.account.account_url}/favorites`)
         break
       }
+      case "settings": {
+        Router.push(`/account/${props.account.account_url}/settings`)
+        break
+      }
     }
   }
 
@@ -49,29 +59,78 @@ const Header = props => {
     return (
       <Menu onClick={handleClickItem}>
         <Menu.Item key="posts">
-          <a>Posts</a>
+          <a>Bài viết</a>
         </Menu.Item>
         <Menu.Item key="favorites">
-          <a>Favorite</a>
+          <a>Yêu thích</a>
         </Menu.Item>
         <Menu.Item key="comments">
-          <a>Comment</a>
+          <a>Bình luận</a>
         </Menu.Item>
-        <Menu.Item key="about">
+        {/* <Menu.Item key="about">
           <a>About</a>
         </Menu.Item>
         <Menu.Item key="images">
           <a>Images</a>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="settings" className="dropdown-option is-flex is-flex--vcenter mt-15">
-          <Icon type="setting" /> <a> Settings </a>
+          <Icon type="setting" /> <a> Cài đặt </a>
         </Menu.Item>
         <Menu.Item key="sign-out" className="dropdown-option is-flex is-flex--vcenter">
-          <Icon type="poweroff" /> <a> Sign Out </a>
+          <Icon type="poweroff" /> <a> Đăng xuất </a>
         </Menu.Item>
       </Menu>
     )
   }
+
+  const menuSearch = () => {
+    return (
+      <Menu onClick={handleSelect}>
+        <div className="pl-20">Bài viết</div>
+        {
+          homePage ?.post ?.posts.map((el, index) => (
+            <Menu.Item key={index} value={el.id} type="post">
+              {el.title}
+            </Menu.Item>
+          ))
+        }
+        <Menu.Divider />
+        <div className="pl-20">Người dùng</div>
+        {
+          homePage ?.account ?.accounts.map((el, index) => (
+            <Menu.Item key={index} value={el.account_url} type="account">
+              <Avatar className="mr-10" src={el.avatar} />
+              @{el.user_name}
+            </Menu.Item>
+          ))
+        }
+      </Menu>
+    )
+  }
+
+  const onChangeSearch = e => {
+    setSearchTerm(e.target.value)
+  }
+
+  const handleSelect = ({ item }) => {
+    switch (item.props.type) {
+      case "post": {
+        Router.push(`/posts/${item.props.value}/edit`)
+        break
+      }
+      case "account": {
+        Router.push(`/account/${item.props.value}/posts`)
+        break
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (searchTerm) {
+      search({ term: searchTerm })
+    }
+  }, [debounceSearchTerm])
+
 
   return (
     <div className="header is-flex is-flex--space-between pd-lr--20">
@@ -83,7 +142,7 @@ const Header = props => {
             <div className="add-post sign-up ml-20 is-flex is-flex--center" onClick={handleCreatePost}>
               <img className="add-post--image mr-10" src="https://s.imgur.com/desktop-assets/desktop-assets/icon-new-post.13ab64f9f36ad8f25ae3544b350e2ae1.svg" />
               <div className="add-post--text">
-                New post
+                Tạo mới
               </div>
             </div>
           }
@@ -92,9 +151,12 @@ const Header = props => {
 
       <div className="header-item header-center">
         <div className="header-item--content">
-          <Input
-            placeholder="Images, #tags, @users oh my!"
-            suffix={<Icon type="search" />} />
+          <Dropdown overlay={menuSearch()}>
+            <Input
+              onChange={onChangeSearch}
+              placeholder="Images, #tags, @users oh my!"
+              suffix={<Icon type="search" />} />
+          </Dropdown>
         </div>
       </div>
 
@@ -159,4 +221,8 @@ const Header = props => {
   )
 }
 
-export default connect(null, { logOut })(Header)
+const mapStateToProps = state => ({
+  homePage: state.homePage
+})
+
+export default connect(mapStateToProps, { logOut, search })(Header)

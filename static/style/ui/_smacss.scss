@@ -22,6 +22,9 @@
     &--row {
       flex-direction: row;
     }
+    &--column {
+      flex-direction: column;
+    }
     &--end {
       justify-content: flex-end;
     }

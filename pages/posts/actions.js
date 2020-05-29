@@ -26,11 +26,10 @@ export const createOrUpdatePost = (accountId, params) => {
 export const getPost = (postId, accountId) => {
   return dispatch => {
     let url = `${getHostName()}/api/v1/article/show?account_id=${accountId}&article_id=${postId}`
-    sendGet(url)
+    return sendGet(url)
       .then(res => {
         if (res.status == 200 && res.data.success == true) {
           dispatch(setEditPost(res.data.article))
-          console.log(111111111)
         } else {
           Notification.errorNonStrict(res, "Lấy danh sách bài viết thất bại")
         }
@@ -47,10 +46,11 @@ export const getPostsUser = params => {
     return sendGet(url, params)
       .then(res => {
         if (res.status == 200 && res.data.success == true) {
-          dispatch(setPosts(res.data.articles))
+          dispatch(setPosts(res.data.data.articles))
         } else {
           Notification.errorNonStrict(res, "Lấy bài viết thất bại")
         }
+        return res
       })
       .catch(error => {
         Notification.errorStrict(error, "Lấy bài viết thất bại")

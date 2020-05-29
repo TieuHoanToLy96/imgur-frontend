@@ -95,18 +95,18 @@ export const updateAccount = data => {
         if (res.status == 200 && res.data.success == true) {
           dispatch(setAccount(res.data.data.account))
           dispatch(setUser(res.data.data.account))
-          Notification.success(res.data.message || "Update account success")
+          Notification.success(res.data.message || "Cập nhật tài khoản thành công")
         } else {
           dispatch({
             type: "ACCOUNT::UPDATE_ACCOUNT_FAILED"
           })
-          Notification.errorNonStrict(res, "Update account failed")
+          Notification.errorNonStrict(res, "Cập nhật tài khoản thất bại")
         }
 
         return res.data.success
       })
       .catch(error => {
-        Notification.errorStrict(error, "Update account failed")
+        Notification.errorStrict(error, "Cập nhật tài khoản thất bại")
       })
   }
 }

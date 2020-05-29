@@ -64,6 +64,13 @@ export default (ChildComponent, isHiddenHeader = false) => {
             <link href="/static/css/emoji-mart.css" rel='stylesheet' />
             <link rel="shortcut icon" type="image/png" href="/static/image/favicon/favicon.ico" />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossOrigin="anonymous" />
+            <link href='/static/iconfont/iconfont.woff2' rel='stylesheet' />
+            <link href='/static/iconfont/iconfont.woff' rel='stylesheet' />
+            <link href='/static/iconfont/iconfont.ttf' rel='stylesheet' />
+            <link href='/static/iconfont/iconfont.css' rel='stylesheet' />
+            <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+            <script src='/static/iconfont/iconfont.js'></script>
             <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
           </Head>
           {

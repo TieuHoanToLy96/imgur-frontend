@@ -1,7 +1,38 @@
 .post {
+  &-item {
+    &--user {
+      img {
+        height: 100%;
+      }
+    }
+  }
   .ant-menu {
     background: transparent;
     color: #fff;
     border-bottom: 0;
+  
+    &-item {
+      border-radius: 30px;
+      height: 32px;
+      line-height: 32px;
+      text-transform: uppercase;
+      margin-right: 10px;
+
+      &:hover {
+        color: #fff;
+        border-color: transparent;
+        background: $color-green;
+      }
+
+      &-selected {
+        color: #fff;
+        border-color: transparent;
+        background: $color-green;
+
+        &:hover {
+          background: $color-green;
+        }
+      }
+    }
   }
 }

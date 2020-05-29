@@ -46,6 +46,7 @@ const EditPost = props => {
   const [indexImage, setIndexImage] = useState(null)
   const [visibleModalPreview, setVisibleModalPreview] = useState(false)
   const [indexPreview, setIndexPreview] = useState(0)
+  const [visibleModalUpload, setVisibleModalUpload] = useState(false)
 
   const handleChangeData = (key, value) => {
     setData(produce(data, draft => {
@@ -196,6 +197,12 @@ const EditPost = props => {
           </div>
 
           <div className="mt-20 post-action">
+            <div>
+              <Button className="post-action--save is-fullwidth" onClick={handleSavePost}>Lưu</Button>
+            </div>
+            <div className="mt-20">
+              <Switch checked={data.is_published} onChange={value => handleChangeData("is_published", value)} size="small" className="mr-5" /> Công khai
+            </div>
             <div className="post-action--tag">
               <div className="post-action--tag__add is-flex">
                 {
@@ -215,7 +222,7 @@ const EditPost = props => {
       {
         visibleModalPreview &&
         <ModalPreviewImage
-          imagesPreview={data.contents ? data.contents.map(el => el.image) : []}
+          imagesPreview={[]}
           indexPreview={indexPreview}
           closeModal={() => setVisibleModalPreview(false)} />
       }

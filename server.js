@@ -20,11 +20,12 @@ app.prepare().then(() => {
     }
   }
 
-  server.get("/posts/:postId", (req, res) => {
-    return app.render(req, res, `/posts/show`, { postId: req.params.postId })
-  })
   server.get("/posts/new", (req, res) => {
     return app.render(req, res, `/posts/edit`, { isCreatePost: true })
+  })
+
+  server.get("/posts/:postId", (req, res) => {
+    return app.render(req, res, `/posts/show`, { postId: req.params.postId })
   })
   server.get("/posts/:postId/edit", (req, res) => {
     return app.render(req, res, `/posts/edit`, { postId: req.params.postId, isCreatePost: true })

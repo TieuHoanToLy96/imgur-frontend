@@ -4,7 +4,7 @@ import Router from "next/router"
 import { connect } from "react-redux"
 
 import ModalSelectAvatar from "/components/ModalSelectAvatar"
-import { getUser } from "/pages/account/actions"
+import { getUser, updateAccount } from "/pages/account/actions"
 
 const { TabPane } = Tabs
 
@@ -46,16 +46,21 @@ const LayoutUser = props => {
             </div>
           </div>
 
+
           <div className="info-header--tab mt-30">
-            <Tabs activeKey={query.key} onChange={handleChangeTab}>
-              <TabPane tab="POSTS" key="posts">
-              </TabPane>
-              <TabPane tab="FAVORITES" key="favorites">
-              </TabPane>
-              <TabPane tab="COMMENTS" key="comments">
-              </TabPane>
-            </Tabs>
+            {
+              account.id == user.id &&
+              <Tabs activeKey={query.key} onChange={handleChangeTab}>
+                <TabPane tab="Bài viết" key="posts">
+                </TabPane>
+                <TabPane tab="Yêu thích" key="favorites">
+                </TabPane>
+                <TabPane tab="Bình luận" key="comments">
+                </TabPane>
+              </Tabs>
+            }
           </div>
+
         </div>
       </div>
       {props.children}
@@ -64,4 +69,4 @@ const LayoutUser = props => {
   )
 }
 
-export default connect(null, { getUser })(LayoutUser)
+export default connect(null, { getUser, updateAccount })(LayoutUser)

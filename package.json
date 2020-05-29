@@ -44,9 +44,11 @@
     "react-dom": "^16.8.4",
     "react-masonry-component": "^6.2.1",
     "react-redux": "^6.0.1",
+    "react-slick": "^0.26.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.0",

@@ -1,6 +1,6 @@
 @media screen and (max-width: 1170px) {
   .container {
-    padding: 0px 10px;
+    padding: 0px 20px;
   }
 }
 
@@ -49,6 +49,10 @@
     .ant-btn {
       height: 32px;
     }
+  }
+
+  .article-list {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -149,5 +153,9 @@
     .ant-modal-body {
       padding: 8px;
     }
+  }
+
+  .article-list {
+    grid-template-columns: 1fr;
   }
 }

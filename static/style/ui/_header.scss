@@ -71,7 +71,7 @@
         border-radius: 3px;
         font-size: 15px;
         font-weight: 500;
-        background-color: #1bb76e;
+        background-color: $color-green;
         box-shadow: 0 6px 10px 0 rgba(27,28,30,.31);
         &:hover {
           &:before {
@@ -99,7 +99,9 @@
 }
 
   .ant-dropdown {
+    color: $color-white;
     width: 150px;
+    
     .ant-dropdown-menu {
       border-radius: 6px;
       background-color: #53565d;
@@ -121,7 +123,7 @@
     .ant-dropdown-menu-item { 
       cursor: pointer;
       display: block;
-			height: 33px;
+			height: auto;
       letter-spacing: 1px;
       padding-left: 21px;
       padding-right: 10px;

@@ -284,7 +284,9 @@ const EditPost = props => {
             <div className="mt-20">
               <Switch checked={data.is_published} onChange={value => handleChangeData("is_published", value)} size="small" className="mr-5" /> Công khai
             </div>
-
+            <div className="mt-20">
+              <Switch checked={data.is_story} onChange={value => handleChangeData("is_story", value)} size="small" className="mr-5" /> Đặt làm story
+            </div>
             <Divider />
 
             <div className="post-action--tag">

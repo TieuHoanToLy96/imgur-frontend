@@ -1,9 +1,8 @@
 import { Icon, Upload, Tabs, Button, Menu } from "antd"
-import Masonry from "react-masonry-component"
 import { useState, useEffect } from "react"
 import { connect } from "react-redux"
-import Router from "next/router"
 
+import ListArticle from "/components/ListArticle"
 import LayoutUser from "/layouts/layout-user"
 import HOC from "/hoc/index"
 import { getHostName } from "/utils/tools"
@@ -12,6 +11,7 @@ import { getPostsUser } from "/pages/posts/actions"
 
 const Posts = props => {
   const { posts, user, account, getPostsUser } = props
+  const [type, setType] = useState("public")
 
   const handleChange = ({ file, fileList }) => {
     if (file.size / 1024 / 1024 > 15) {
@@ -36,8 +36,10 @@ const Posts = props => {
     });
   }
 
-  const handleSelectPost = id => () => {
-    Router.push(`/posts/${id}/edit`)
+  
+
+  const handleSelectTab = ({ key }) => {
+    setType(key)
   }
 
   const getPosts = (account_id, account_url, type) => {
@@ -69,54 +71,26 @@ const Posts = props => {
   )
 
   useEffect(() => {
-    getPosts(account.id, user.account_url, 1)
-  }, [])
+    getPosts(account.id, props.query.accountUrl, type)
+  }, [type])
 
   return (
     <LayoutUser {...props} >
       <div className="container">
         <div className="post">
-
-
-          <Menu mode="horizontal">
-            <Menu.Item key="mail">
-              Tất cả
-            </Menu.Item>
-            <Menu.Item key="app">
+          <Menu className="mb-20" mode="horizontal" onSelect={handleSelectTab} selectedKeys={[type]}>
+            <Menu.Item key="public">
               Công khai
             </Menu.Item>
+            {
+              user.id == account.id &&
+              <Menu.Item key="private">
+                Chỉ mình tôi
+              </Menu.Item>
+            }
           </Menu>
 
-          {/* <div className="post-list"> */}
-          <Masonry
-            className={'post-list'} // default ''
-            elementType={'div'} // default 'div'
-            options={{ gutter: 10 }} // default {}
-            disableImagesLoaded={false} // default false
-            updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-          // imagesLoadedOptions={imagesLoadedOptions} // default {}
-          >
-            {
-              posts.map((el, index) => (
-                <div className="post-item" key={index} onClick={handleSelectPost(el.id)}>
-
-                  <img src={el.contents[0].image} />
-                  <div className="post-item--detail">
-                    <div className="post-item--detail__title is-flex is-flex--vcenter">
-                      {el.title}
-                    </div>
-                    <div className="is-flex is-flex--space-between  is-flex--vcenter">
-                      <div className="post-item--detail__count">
-                        {el.view_count}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))
-            }
-
-          </Masonry>
-
+          <ListArticle posts={posts} />
         </div>
       </div>
     </LayoutUser>

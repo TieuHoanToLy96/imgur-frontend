@@ -41,7 +41,9 @@ const ReplyComment = props => {
 const ListComment = props => {
   const { editPost, articleId, account, getComments } = props
   useEffect(() => {
-    getComments(account.id, articleId, { limit: 100, page: 1 })
+    if (editPost && account) {
+      getComments(account.id, articleId, { limit: 100, page: 1 })
+    }
   }, [])
 
   return (
