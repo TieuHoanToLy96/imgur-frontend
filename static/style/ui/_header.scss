@@ -35,8 +35,14 @@
       display: flex;
       width: 100%;
     }
+    
+    .ant-badge {
+      height: 100%;
+    }
+
     .button-link {
       padding: 0px 5px;
+      height: 100%;
       &:hover {
         opacity: 0.6;
       }
@@ -143,3 +149,112 @@
       color: $color-danger-o-medium;
     }
   }
+
+.list-noti {
+  color: $color-white;
+
+  &--wrapper {
+    overflow-y: scroll;
+    max-height: 400px;
+    cursor: pointer;
+    width: 360px;
+    background: #2C2F34;
+  }
+}
+
+.item-noti {
+  padding: 0px 8px;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &--wrapper {
+    padding: 0px 8px;
+   
+    &:hover {
+      color: #000;
+
+      .item-noti {
+        background: #f3f6fd;
+      }
+    }
+  }
+  
+  &--time {
+    color: $color-green;
+    font-weight: 500;
+
+    &__seen {
+      color: #000;
+    }
+  }
+
+  &--content {
+    padding: 12px 0px;
+  }
+  
+  &--avatar {
+    margin-top: 8px;
+    margin-right: 12px; 
+  }
+
+  .ant-btn {
+    height: 36px;
+    border: none;
+    background: #d1d1d1;
+    min-width: 114px;
+    margin-right: 8px;
+    margin-top: 4px;
+
+    &:hover {
+      opacity: 0.8;
+      color: #000;
+    }
+  }
+  
+  .ant-btn-primary {
+    background: $color-green;
+
+    &:hover {
+      color: $color-white;
+    }
+  }
+}
+
+.popover-noti {
+  .ant-popover-inner {
+    border-top: 2px solid $color-white;
+    background: transparent;
+  }
+  
+  .ant-popover-inner-content {
+    padding: 0px;
+  }
+
+  .ant-popover-title {
+    font-size: 20px;
+    height: 59px;
+    color: #fff;
+    border-bottom: none;
+    background: #2c3034;
+    line-height: 59px;
+  }
+
+  .ant-popover-inner-content {
+    padding-bottom: 8px;
+  }
+}
+
+.friend-request {
+  &--status {
+    width: fit-content;
+    padding: 5px 10px;
+    border: 1px solid $color-white;
+    color: $color-white;
+    border-radius: 20px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

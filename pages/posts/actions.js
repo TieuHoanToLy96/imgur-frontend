@@ -4,6 +4,9 @@ import Notification from "/components/Notification/index"
 import { getHostName } from "/utils/tools"
 import { sendGet, sendPost } from "/utils/request"
 
+import io from 'socket.io-client'
+const socket = io('http://localhost:4000')
+
 export const createOrUpdatePost = (accountId, params) => {
   return dispatch => {
     let url = `${getHostName()}/api/v1/article/create_or_update?account_id=${accountId}`
@@ -64,7 +67,8 @@ export const createOrUpdateComment = (accountId, params, cb) => {
     return sendPost(url, null, params)
       .then(res => {
         if (res.status == 200 && res.data.success == true) {
-          dispatch(setComment(res.data.comment))
+          socket.emit("notification", { accountId: res.data.data.notification.receiver.id, notification: res.data.data.notification, countNoti: res.data.data.count_noti })
+          dispatch(setComment(res.data.data.comment))
           if (cb) cb()
         } else {
           Notification.errorNonStrict(res, "Lưu bình luận thất bại")
@@ -77,12 +81,17 @@ export const createOrUpdateComment = (accountId, params, cb) => {
 }
 
 export const createOrUpdateReaction = (accountId, params, cb) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     let url = `${getHostName()}/api/v1/reaction/create_or_update?account_id=${accountId}`
     return sendPost(url, null, params)
       .then(res => {
         if (res.status == 200 && res.data.success == true) {
-          dispatch(setReaction(res.data.reaction))
+          if (res.data.data.notification) {
+            socket.emit("notification", { accountId: res.data.data.notification.receiver.id, notification: res.data.data.notification, countNoti: res.data.data.count_noti })
+          }
+
+          dispatch(setReaction(res.data.data.reaction))
+
           if (cb) cb()
         } else {
           Notification.errorNonStrict(res, "Bày tỏ cảm xúc thất bại")
@@ -95,7 +104,6 @@ export const createOrUpdateReaction = (accountId, params, cb) => {
 }
 
 export const getComments = (accountId, articleId, params) => {
-  console.log(accountId, articleId, "ppppp")
   return dispatch => {
     let url = `${getHostName()}/api/v1/comment/list?account_id=${accountId}`
 

@@ -48,7 +48,6 @@ const reducerPost = produce((draft, action) => {
     case "POST::SET_REACTION": {
       let reactions = draft.editPost.reactions || []
       let index = findIndex(reactions, el => el.id == action.payload.id)
-      console.log(index, "dddd")
       if (index > -1) {
         draft.editPost.reactions[index] = action.payload
 

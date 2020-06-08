@@ -20,7 +20,7 @@ export default (ChildComponent, isHiddenHeader = false) => {
 
         if (token) {
           let dispatch = ctx.store.dispatch
-
+          let getState = ctx.store.getState
           let data = { token: token }
           const url = `${getHostName()}/api/v1/account/me?accessToken=${token}`
           await axios({
@@ -30,10 +30,24 @@ export default (ChildComponent, isHiddenHeader = false) => {
           })
             .then(res => {
               if (res.status == 200 && res.data.success == true) {
+                // getState().account.socket.on(`noti:${res.data.data.id}`, data => {
+                //   if (res.data.data.id == data.accountId) {
+                //     let countNoti = getState().account.countNoti + 1
+                //     dispatch({
+                //       type: "ACCOUNT::SET_COUNT_NOTI",
+                //       payload: countNoti
+                //     })
+                //   }
+                // })
+                dispatch({
+                  type: "ACCOUNT::SET_COUNT_NOTI",
+                  payload: res.data.data.count_noti
+                })
                 dispatch({
                   type: "ACCOUNT::SIGN_IN_SUCCESS",
                   payload: res.data.data
                 })
+
                 return { token: token, query: ctx.query }
               } else {
                 dispatch({

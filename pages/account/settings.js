@@ -21,7 +21,6 @@ const Settings = props => {
   }
 
   const handleSaveAccount = () => {
-    console.log(accountParams, "ddddd")
     updateAccount(accountParams)
   }
 

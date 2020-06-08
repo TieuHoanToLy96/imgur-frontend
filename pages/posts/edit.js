@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import produce from "immer"
 import Router from "next/router"
+import io from 'socket.io-client'
+const socket = io('http://localhost:4000')
 
 import Reaction from "/components/Reaction"
 import ModalPreviewImage from "/components/ModalPreviewImage"
@@ -41,7 +43,7 @@ const reaction = {
 }
 
 const EditPost = props => {
-  const { editPost, account, createOrUpdatePost, getPost, createOrUpdateReaction, createOrUpdateComment } = props
+  const { editPost, user, account, createOrUpdatePost, getPost, createOrUpdateReaction, createOrUpdateComment } = props
   const [visibleModalUpload, setVisibleModalUpload] = useState(false)
   const [data, setData] = useState(editPost || {})
   const [indexImage, setIndexImage] = useState(null)
@@ -139,11 +141,11 @@ const EditPost = props => {
 
     let data = {
       type_reaction: type,
-      account_id: account.id,
+      account_id: editPost.account_id,
       article_id: editPost.id
     }
 
-    createOrUpdateReaction(account.id, data)
+    createOrUpdateReaction(editPost.account_id, data)
   }
 
   const handleCreateComment = (value, cb) => {
@@ -151,10 +153,10 @@ const EditPost = props => {
       content: value,
       parent_id: null,
       article_id: editPost.id,
-      account_id: account.id
+      account_id: editPost.account_id
     }
 
-    createOrUpdateComment(account.id, data, cb)
+    createOrUpdateComment(editPost.account_id, data, cb)
   }
 
   const menu = index => {
@@ -189,7 +191,7 @@ const EditPost = props => {
         <div className="is-flex is-flex--row post">
           <div className="mt-20 post-content">
             <div className="post-content--title is-flex is-flex--vcenter">
-              <Input value={data.title} placeholder="Give post a title" onChange={e => handleChangeData("title", e.target.value)} />
+              <Input disabled={account.id != editPost.id} value={data.title} placeholder="Give post a title" onChange={e => handleChangeData("title", e.target.value)} />
             </div>
 
             <div className="post-image--list">
@@ -204,14 +206,17 @@ const EditPost = props => {
 
                       <div className="post-content--item__action is-flex">
                         <Input className="mr-10 post-content--item__action--copy" addonAfter={<div onClick={handleCopyUrl(el.image)}>Sao chép</div>} value={el.image} />
-                        <Dropdown className="mr-10 post-content--item__action--select" overlayClassName="min-overlay" placement="bottomRight" overlay={menu(index)}>
-                          <Button>
-                            <Icon type="down" />
-                          </Button>
-                        </Dropdown>
+                        {
+                          account.id == editPost.id &&
+                          <Dropdown className="mr-10 post-content--item__action--select" overlayClassName="min-overlay" placement="bottomRight" overlay={menu(index)}>
+                            <Button>
+                              <Icon type="down" />
+                            </Button>
+                          </Dropdown>
+                        }
                       </div>
                     </div>
-                    <Input.TextArea value={el.description} onChange={e => handleChangeContents(index, "description", e.target.value)} placeholder="Add description" className="post-content--item__description" rows={1} />
+                    <Input.TextArea disabled={account.id != editPost.id} value={el.description} onChange={e => handleChangeContents(index, "description", e.target.value)} placeholder="Add description" className="post-content--item__description" rows={1} />
                     {
                       index != data.contents.length - 1 &&
                       <div className="post-content--item__add is-relative" onClick={handleAddImageIndex(index)}>
@@ -271,43 +276,50 @@ const EditPost = props => {
 
             </div>
 
-            <div className="post-content--add is-flex is-flex--center" onClick={() => setVisibleModalUpload(true)}>
-              <Icon type="plus-circle" className="mr-10" theme="filled" />
-              Add another image
+            {
+              account.id == editPost.account_id &&
+              <div className="post-content--add is-flex is-flex--center" onClick={() => setVisibleModalUpload(true)}>
+                <Icon type="plus-circle" className="mr-10" theme="filled" />
+                Thêm ảnh bài viết
             </div>
+            }
           </div>
 
-          <div className="mt-20 post-action">
-            <div>
-              <Button className="post-action--save is-fullwidth" onClick={handleSavePost}>Lưu</Button>
+          {
+            account.id == editPost.account_id &&
+            <div className="mt-20 post-action">
+              <div>
+                <Button className="post-action--save is-fullwidth" onClick={handleSavePost}>Lưu</Button>
+              </div>
+              <div className="mt-20">
+                <Switch checked={data.is_published} onChange={value => handleChangeData("is_published", value)} size="small" className="mr-5" /> Công khai
             </div>
-            <div className="mt-20">
-              <Switch checked={data.is_published} onChange={value => handleChangeData("is_published", value)} size="small" className="mr-5" /> Công khai
+              <div className="mt-20">
+                <Switch checked={data.is_story} onChange={value => handleChangeData("is_story", value)} size="small" className="mr-5" /> Đặt làm story
             </div>
-            <div className="mt-20">
-              <Switch checked={data.is_story} onChange={value => handleChangeData("is_story", value)} size="small" className="mr-5" /> Đặt làm story
-            </div>
-            <Divider />
+              <Divider />
 
-            <div className="post-action--tag">
-              <div className="post-action--tag__add is-flex">
-                {
-                  data.tags && data.tags.map((el, index) => (
-                    <Tag key={index} closable>
-                      {el}
-                    </Tag>
-                  ))
-                }
+              <div className="post-action--tag">
+                <div className="post-action--tag__add is-flex">
+                  {
+                    data.tags && data.tags.map((el, index) => (
+                      <Tag key={index} closable>
+                        {el}
+                      </Tag>
+                    ))
+                  }
 
-                {
-                  isAddTag ?
-                    <Input autoFocus className="input" onPressEnter={e => handleAddTag(e.target.value)} onBlur={() => setIsAddTag(false)} />
-                    :
-                    <Button className="button" shape="round" icon="plus" onClick={() => setIsAddTag(true)}>Thẻ</Button>
-                }
+                  {
+                    isAddTag ?
+                      <Input autoFocus className="input" onPressEnter={e => handleAddTag(e.target.value)} onBlur={() => setIsAddTag(false)} />
+                      :
+                      <Button className="button" shape="round" icon="plus" onClick={() => setIsAddTag(true)}>Thẻ</Button>
+                  }
+                </div>
               </div>
             </div>
-          </div>
+          }
+
         </div>
 
       </div>

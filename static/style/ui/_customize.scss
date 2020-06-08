@@ -19,6 +19,10 @@
     &-message {
       color: $color-text;
     }
+
+    &-with-icon {
+      display: flex;
+    }
   }
 
   .noti {

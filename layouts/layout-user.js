@@ -4,9 +4,38 @@ import Router from "next/router"
 import { connect } from "react-redux"
 
 import ModalSelectAvatar from "/components/ModalSelectAvatar"
-import { getUser, updateAccount } from "/pages/account/actions"
+import { getUser, updateAccount, sendFriendRequest } from "/pages/account/actions"
 
 const { TabPane } = Tabs
+
+const FriendStatus = props => {
+  const { user, account, sendFriendRequest } = props
+
+  return (
+    <div className="friend-request--wrapper ml-25">
+      <div className="friend-request">
+        {
+          !user ?.relation_account ?.status && account.id != user.id &&
+            <div className="friend-request--status" onClick={() => sendFriendRequest({ account_id: user.id })}>
+              <Icon type="user-add" />Thêm bạn bè
+            </div> 
+        }
+        {
+          user ?.relation_account ?.status == 1 &&
+            <div className="friend-request--status">
+              <Icon type="check" /> Đã gửi lời mời
+            </div> 
+        }
+        {
+          user ?.relation_account ?.status == 2 &&
+            <div className="friend-request--status">
+              <Icon type="check" />  Bạn bè
+            </div> 
+        }
+      </div>
+    </div>
+  )
+}
 
 const LayoutUser = props => {
   const { account, user, getUser } = props
@@ -41,8 +70,11 @@ const LayoutUser = props => {
               </div>
             </div>
 
-            <div className="info-header--user__name ml-25">
-              {user.account_url}
+            <div>
+              <div className="info-header--user__name ml-25">
+                {user.account_url}
+              </div>
+              <FriendStatus {...props} />
             </div>
           </div>
 
@@ -69,4 +101,4 @@ const LayoutUser = props => {
   )
 }
 
-export default connect(null, { getUser, updateAccount })(LayoutUser)
+export default connect(null, { getUser, updateAccount, sendFriendRequest })(LayoutUser)

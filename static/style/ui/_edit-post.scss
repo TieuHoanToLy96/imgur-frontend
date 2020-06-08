@@ -46,6 +46,11 @@
         &:focus {
           color: $color-white;
         }
+
+        &:disabled {
+          background: $color-core-dark !important;
+          cursor: default;
+        }
       }
 
       &__action {

@@ -1,17 +1,22 @@
-import { Menu, Dropdown, Input, Button, Icon, Select, Avatar } from "antd"
+import { Badge, Popover, Menu, Dropdown, Input, Button, Icon, Select, Avatar, notification } from "antd"
 import Router from "next/router"
 import { connect } from "react-redux"
 import { useEffect, useState } from "react"
+import io from 'socket.io-client'
+const socket = io('http://localhost:4000')
 
-import { logOut } from "/pages/account/actions"
+import Notification from "/components/Notification/index"
+import ListNotification from "/components/ListNotification"
+import { logOut, setCountNoti, setAccount, socketUpdateNoti } from "/pages/account/actions"
 import { search } from "/pages/actions"
 import { useDebounce } from "/hook"
 
 const Header = props => {
+  const { setCountNoti } = props
   const [searchTerm, setSearchTerm] = useState("");
   const debounceSearchTerm = useDebounce(searchTerm, 500);
 
-  const { user, account, homePage, logOut, search } = props
+  const { info, countNoti, user, account, homePage, logOut, search, socketUpdateNoti } = props
 
   const handleClickSignIn = () => {
     Router.push("/account/sign-in")
@@ -67,12 +72,6 @@ const Header = props => {
         <Menu.Item key="comments">
           <a>Bình luận</a>
         </Menu.Item>
-        {/* <Menu.Item key="about">
-          <a>About</a>
-        </Menu.Item>
-        <Menu.Item key="images">
-          <a>Images</a>
-        </Menu.Item> */}
         <Menu.Item key="settings" className="dropdown-option is-flex is-flex--vcenter mt-15">
           <Icon type="setting" /> <a> Cài đặt </a>
         </Menu.Item>
@@ -125,12 +124,21 @@ const Header = props => {
     }
   }
 
+  const contentNoti = (
+    <ListNotification data={account ?.notifications || []} />
+  )
+
   useEffect(() => {
     if (searchTerm) {
       search({ term: searchTerm })
     }
   }, [debounceSearchTerm])
 
+  useEffect(() => {
+    socket.on(`noti:${account.id}`, data => {
+      socketUpdateNoti(data)
+    })
+  }, [])
 
   return (
     <div className="header is-flex is-flex--space-between pd-lr--20">
@@ -162,57 +170,57 @@ const Header = props => {
 
       <div className="header-item header-right">
         <div className="header-item--content">
-          <div className="button-link is-flex is-flex--vcenter">
-            <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-leaderboard.2c7c197ab7cc58a23c14b83dcc3025a9.svg" />
-          </div>
           {
-            account.id &&
-            <div className="button-link is-flex is-flex--vcenter">
-              <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-chat.f91379e0c16bc9fe39a41956da9457c4.svg" />
+            account ?.id &&
+              <div className="button-link is-flex is-flex--vcenter" onClick={() => Router.push("/conversations")}>
+                <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-chat.f91379e0c16bc9fe39a41956da9457c4.svg" />
+              </div>
+          }
+          {
+            account ?.id &&
+              <Popover title="Thông báo" overlayClassName="popover-noti" placement="bottom" content={contentNoti} trigger="click">
+                <Badge count={countNoti}>
+                  <div className="button-link is-flex is-flex--vcenter">
+                    <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-notifications.aeebfeab4400518b87f939217d186198.svg" />
+                  </div>
+                </Badge>
+              </Popover>
+          }
+          {
+            account ?.id &&
+              <div className="user is-flex is-flex--vcenter ml-10">
+                {
+                  account.user_name && account.user_name &&
+                  <div className="user-name">
+                    {account.user_name}
+                  </div>
+                }
+                {
+                  account.avatar ?
+                    <Dropdown className="user-dropdown" overlay={renderUserDropdown()}>
+                      <div onClick={handleClickAvatar} className="user-avatar">
+                        <img src={account.avatar} />
+                      </div>
+                    </Dropdown>
+                    :
+                    <Dropdown className="user-dropdown" overlay={renderUserDropdown()}>
+                      <div onClick={handleClickAvatar} className="user-avatar user-avatar-default is-flex is-flex--center">
+                        {account.user_name.charAt(0)}
+                      </div>
+                    </Dropdown>
+                }
+              </div>
+          }
+          {
+            !account ?.id &&
+              <div className="sign-action sign-in" onClick={handleClickSignIn}>
+                Sign in
             </div>
           }
           {
-            account.id &&
-            <div className="button-link is-flex is-flex--vcenter">
-              <img src="https://s.imgur.com/desktop-assets/desktop-assets/icon-notifications.aeebfeab4400518b87f939217d186198.svg" />
-            </div>
-          }
-          {
-            account.id &&
-            <div className="user is-flex is-flex--vcenter ml-10">
-              {
-                account.user_name && account.user_name &&
-                <div className="user-name">
-                  {account.user_name}
-                </div>
-              }
-              {
-                account.avatar ?
-                  <Dropdown className="user-dropdown" overlay={renderUserDropdown()}>
-                    <div onClick={handleClickAvatar} className="user-avatar">
-                      <img src={account.avatar} />
-                    </div>
-                  </Dropdown>
-                  :
-                  <Dropdown className="user-dropdown" overlay={renderUserDropdown()}>
-                    <div onClick={handleClickAvatar} className="user-avatar user-avatar-default is-flex is-flex--center">
-                      {account.user_name.charAt(0)}
-                    </div>
-                  </Dropdown>
-              }
-            </div>
-          }
-
-          {
-            !account.id &&
-            <div className="sign-action sign-in" onClick={handleClickSignIn}>
-              Sign in
-            </div>
-          }
-          {
-            !account.id &&
-            <div className="sign-action sign-up" onClick={handleClickSignUp}>
-              Sign up
+            !account ?.id &&
+              <div className="sign-action sign-up" onClick={handleClickSignUp}>
+                Sign up
             </div>
           }
         </div>
@@ -222,7 +230,9 @@ const Header = props => {
 }
 
 const mapStateToProps = state => ({
-  homePage: state.homePage
+  homePage: state.homePage,
+  countNoti: state.account.countNoti,
+  info: state.account.info
 })
 
-export default connect(mapStateToProps, { logOut, search })(Header)
+export default connect(mapStateToProps, { logOut, search, setCountNoti, setAccount, socketUpdateNoti })(Header)

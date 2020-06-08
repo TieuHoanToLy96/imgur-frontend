@@ -1,6 +1,7 @@
 import { connect } from "react-redux"
 import { useEffect, useState } from "react"
 
+import ListNotification from "/components/ListNotification"
 import HOC from "/hoc/index"
 import ListPost from "/components/ListPost"
 import ListStory from "/components/ListStory"
