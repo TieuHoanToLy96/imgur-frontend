@@ -3,7 +3,7 @@ import { Cookies } from "react-cookie"
 import { connect } from "react-redux"
 import Router from "next/router"
 
-import { authAccount, setAccount } from "/pages/account/actions"
+import { authAccount, setAccount } from "/redux/account/actions"
 
 const cookies = new Cookies()
 

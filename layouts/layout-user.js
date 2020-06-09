@@ -4,7 +4,7 @@ import Router from "next/router"
 import { connect } from "react-redux"
 
 import ModalSelectAvatar from "/components/ModalSelectAvatar"
-import { getUser, updateAccount, sendFriendRequest } from "/pages/account/actions"
+import { getUser, updateAccount, sendFriendRequest } from "/redux/account/actions"
 
 const { TabPane } = Tabs
 

@@ -13,7 +13,7 @@ import Comment from "/components/Comment"
 import ListComment from "/components/ListComment"
 import HOC from "/hoc/index"
 import { copyToClipBoard } from "/utils/tools"
-import { createOrUpdatePost, getPost, createOrUpdateReaction, createOrUpdateComment } from "/pages/posts/actions"
+import { createOrUpdatePost, getPost, createOrUpdateReaction, createOrUpdateComment } from "/redux/posts/actions"
 
 const likeSvg =
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -7,8 +7,8 @@ const socket = io('http://localhost:4000')
 
 import Notification from "/components/Notification/index"
 import ListNotification from "/components/ListNotification"
-import { logOut, setCountNoti, setAccount, socketUpdateNoti } from "/pages/account/actions"
-import { search } from "/pages/actions"
+import { logOut, setCountNoti, setAccount, socketUpdateNoti } from "/redux/account/actions"
+import { search } from "/redux/actions"
 import { useDebounce } from "/hook"
 
 const Header = props => {

@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 
 import HOC from "/hoc/index"
 import Notification from "/components/Notification/index"
-import { createAccount } from "/pages/account/actions"
+import { createAccount } from "/redux/account/actions"
 import { useInput } from "/hook/index"
 
 const SignUp = props => {

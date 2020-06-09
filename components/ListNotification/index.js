@@ -4,7 +4,7 @@ import Router from "next/router"
 import io from 'socket.io-client'
 const socket = io('http://localhost:4000')
 import { formatDateTime } from "/utils/tools"
-import { acceptFriendRequest, cancelFriendRequest, markSeenNotification, getNotifications } from "/pages/account/actions"
+import { acceptFriendRequest, cancelFriendRequest, markSeenNotification, getNotifications } from "/redux/account/actions"
 import { useEffect } from "react";
 
 const ListNotification = props => {

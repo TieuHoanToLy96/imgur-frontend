@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { connect } from "react-redux"
 
 import Comment from "/components/Comment"
-import { getComments } from "/pages/posts/actions"
+import { getComments } from "/redux/posts/actions"
 
 const ReplyComment = props => {
   const { articleId, comment, account, createOrUpdateComment } = props

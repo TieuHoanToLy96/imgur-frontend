@@ -4,7 +4,7 @@ import ListArticle from "/components/ListArticle"
 import LayoutUser from "/layouts/layout-user"
 import HOC from "/hoc/index"
 import { useEffect } from "react"
-import { getPostsUser } from "/pages/posts/actions"
+import { getPostsUser } from "/redux/posts/actions"
 
 const Favorites = props => {
   const { posts, account, getPostsUser } = props

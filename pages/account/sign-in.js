@@ -5,8 +5,8 @@ import { connect } from "react-redux"
 
 import HOC from "/hoc/index"
 import { useInput } from "/hook/index"
-import { logIn } from "/pages/account/actions"
-import { setAccount } from "./actions";
+import { logIn } from "/redux/account/actions"
+import { setAccount } from "/redux/account/actions"
 
 const SignIn = props => {
   const { logIn } = props

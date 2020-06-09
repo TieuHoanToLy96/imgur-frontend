@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import ModalSelectAvatar from "/components/ModalSelectAvatar"
 import HOC from "/hoc/index"
 import { getHostName } from "/utils/tools"
-import { updateAccount, setAccount } from "/pages/account/actions"
+import { updateAccount, setAccount } from "/redux/account/actions"
 
 const { TabPane } = Tabs
 

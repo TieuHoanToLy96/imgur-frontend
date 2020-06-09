@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import Router from "next/router"
 
 import HOC from "/hoc/index"
-import { searchFriend, createConversation, getConversations, sendMessage, getMessages, socketUpdateMessages, setSelectedConversation, updateConversation } from "/pages/conversations/actions"
+import { searchFriend, createConversation, getConversations, sendMessage, getMessages, socketUpdateMessages, setSelectedConversation, updateConversation } from "/redux/conversations/actions"
 import { useDebounce } from "/hook"
 
 import io from 'socket.io-client'

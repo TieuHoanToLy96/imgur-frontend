@@ -6,8 +6,8 @@ import ListArticle from "/components/ListArticle"
 import LayoutUser from "/layouts/layout-user"
 import HOC from "/hoc/index"
 import { getHostName } from "/utils/tools"
-import { updateAccount, setAccount } from "/pages/account/actions"
-import { getPostsUser } from "/pages/posts/actions"
+import { updateAccount, setAccount } from "/redux/account/actions"
+import { getPostsUser } from "/redux/posts/actions"
 
 const Posts = props => {
   const { posts, user, account, getPostsUser } = props

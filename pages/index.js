@@ -5,7 +5,7 @@ import ListNotification from "/components/ListNotification"
 import HOC from "/hoc/index"
 import ListPost from "/components/ListPost"
 import ListStory from "/components/ListStory"
-import { getAllArticle, getAllStory } from "/pages/actions"
+import { getAllArticle, getAllStory } from "/redux/actions"
 
 const Index = props => {
   const { homePage, getAllArticle } = props

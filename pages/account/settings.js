@@ -6,7 +6,7 @@ import produce from "immer"
 import HOC from "/hoc/index"
 import LayoutUser from "/layouts/layout-user"
 import ModalSelectAvatar from "/components/ModalSelectAvatar"
-import { updateAccount } from "/pages/account/actions"
+import { updateAccount } from "/redux/account/actions"
 
 const Settings = props => {
   const { user, account, updateAccount } = props
