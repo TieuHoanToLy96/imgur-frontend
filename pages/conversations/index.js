@@ -1,4 +1,5 @@
-import { Input, Modal, Select, Icon } from "antd"
+import { Input, Modal, Select, Icon, Popover } from "antd"
+import { Picker } from "emoji-mart"
 import { connect } from "react-redux"
 import { useState, useEffect } from "react"
 import Router from "next/router"
@@ -155,6 +156,23 @@ const Message = props => {
   const [message, setMessage] = useState("")
   const [loadingMessages, setLoadingMessages] = useState(false)
 
+  const insertAtCursor = (textToInsert) => {
+    const value = message
+    let input = document.getElementById("sendMessage")
+    const start = input.selectionStart
+    const end = input.selectionEnd
+
+    setMessage(value.slice(0, start) + textToInsert + value.slice(end))
+
+    // update cursor to be at the end of insertion
+    input.selectionStart = input.selectionEnd = start + 1;
+  }
+  const handleSelectEmoji = value => {
+    insertAtCursor(value.native)
+    // let v = `${message} ${value.native}`
+    // setMessage(v)
+  }
+
   const handleSendMessage = () => {
     sendMessage({ message: message, conversation_id: selectedConversation })
       .then(res => {
@@ -218,7 +236,15 @@ const Message = props => {
               <div className="send-message--wrapper">
                 <div className="send-message">
                   <div className="send-message--input">
-                    <Input value={message} onChange={onChange} onPressEnter={handleSendMessage} />
+                    <Input
+                      id="sendMessage"
+                      value={message}
+                      onChange={onChange}
+                      onPressEnter={handleSendMessage} suffix={
+                        <Popover overlayClassName="emoji" content={<Picker theme="dark" onSelect={handleSelectEmoji} />}>
+                          <Icon type="smile" />
+                        </Popover>
+                      } />
                   </div>
                   <div className="send-message--item" onClick={handleSendMessage}>
                     <svg height="36px" width="36px" viewBox="0 0 36 36"><g fill="none"><g><polygon points="0 36 36 36 36 0 0 0"></polygon><path d="M31.1059281,19.4468693 L10.3449666,29.8224462 C8.94594087,30.5217547 7.49043432,29.0215929 8.17420251,27.6529892 C8.17420251,27.6529892 10.7473302,22.456697 11.4550902,21.0955966 C12.1628503,19.7344961 12.9730756,19.4988922 20.4970248,18.5264632 C20.7754304,18.4904474 21.0033531,18.2803547 21.0033531,17.9997309 C21.0033531,17.7196073 20.7754304,17.5095146 20.4970248,17.4734988 C12.9730756,16.5010698 12.1628503,16.2654659 11.4550902,14.9043654 C10.7473302,13.5437652 8.17420251,8.34697281 8.17420251,8.34697281 C7.49043432,6.9788693 8.94594087,5.47820732 10.3449666,6.1775158 L31.1059281,16.553593 C32.298024,17.1488555 32.298024,18.8511065 31.1059281,19.4468693" fill="#0099ff"></path></g></g></svg>
@@ -262,14 +288,11 @@ const ListConversation = props => {
   }
 
   useEffect(() => {
-
-  }, [])
-
-  useEffect(() => {
+    setLoadingSearch(true)
     if (debounceSearchTerm) {
-      getConversations({ term: debounceSearchTerm })
+      getConversations({ term: debounceSearchTerm }).finally(() => setLoadingSearch(false))
     } else {
-      getConversations()
+      getConversations().finally(() => setLoadingSearch(false))
     }
   }, [debounceSearchTerm])
 
@@ -302,64 +325,70 @@ const ListConversation = props => {
       </div>
 
       <div className="list-conversation--wrapper">
-        <div className="list-conversation">
-          <div className="item-conversation--wrapper">
-            <div className="item-conversation">
-              <div className="item-conversation--avatar">
-                <div className="item-conversation--avatar__item">
-                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAMFBMVEXFxcX////CwsLGxsb7+/vT09PJycn19fXq6urb29ve3t7w8PDOzs7n5+f5+fnt7e30nlkBAAAFHUlEQVR4nO2dC5qqMAyFMTwUBdz/bq+VYYrKKJCkOfXmXwHna5uTpA+KwnEcx3Ecx3Ecx3Ecx3Ecx3Ecx3Ecx3Ecx3EcA2iO9cdIc5PUdO257y+BU39u66b4HplE3fk6VIcnqmNfl1+gksr6+iIucjl3WYukor7+re6Hoe1y1UhNO3zUd+fUFRmKpOa0Tt6dY5ubRCrOG/QFLk1WGmnt/JxzykcjdZ/jyxJDLlOV2l36AtcsJJb9boG3YcR3DuqODIE3ztYKPkDdmwRmpUToUaSaq++AvRgZMWbOpbQW8hdCAm8ZDugoikzREdCJ2okJPBx6azFLNOwoOgcxojJ98JkaTSJxMpklKrCAKhZGI0drTY/wU5lXoJYibannV9NYy4oozNEAkPHTjop+DTDxVGkIgYJNoyQQJtiIW+EMjGAjm649AjGIaqswcEFQKJ2QPlJbqytki6ZXAAZRJ52J2McaUowzAfs+uFzrYhnzaapphiPWdaJWShqxjqa6kTTQ205TVbsfMa6htL0iYOsXpJrQjHSmCkv1QGPtiHqlYcQ21Gj7fcDU8xOEUuNgSltPzexh+HqFlanCBHZ4OLhCV+gK/3OF6vWvucLv98MUOY2pwu/PS/+D2qJU7pYGbOvDFDW+bbON9p3o3oRxn0bfLgZTgSn6pSfrtr56qLHemtHPTK2319SzGvtjQ9qeb39WgS66Cm073nd0U1PzDdJCO3Gzn6TKpl9Zq7ujGWsQhlA3NwWIMwG9zM08Y/tBrR9VWeczv5CSQuuUNKIUTk23ZJ5RKfVhjnkXotfWIlgX2BSCDYbZR+QTcLhb3dKZDUY2M0d4KWItwhHRah/zsrOgKw4wycwjcgEVcgQDQo23CqSiWEJkFAfod2oE1uIFdA1OsCPqFXYNTjCfb8Ez+iX2x5sKLlVbhtqdDcar9ZevhnbZxoBUD35k23t0d304LYs1ELVbnfFaZ/REJJX9niP8Q19moZGo3m8XR/yBvOnjFfsXcI2c8ZuNo7WMP5HQh6yRGrlmFOJTnyTcT+zRlqPUBI2gTVWNUzUna1ERgecgF4GpNBQ38jGqxVLzQA1A31Rrhk6Yz9QEh/WND0GnuG9huhiTXJkxfAizTHLr6cbJKN6UCU6x/2DTRE1xEeEXi3O0ZUqBN4nJRzHhFB1JPlFTBZlI2kQ8zc3KJ1Le8DIRmFJiknuVS6RK4Ej/JtBfJErDSzOBiY4wJHX6Z1I4v1GUmdCPNirnLLeg3oJLcbX5PcpHNbRvOa1A956QmRPOUXVF+zkaUJynpkYR0bOMJH2nNej1pqyV/aKkz9jr5yj5vrXXz1F5SQLACiMapmierj2ikLyleKdlA/I/2oFxiglxx9B+mHwz0lf34IZQfhDRhlD6bhvgEAoPYooHkTczSIZTLC+cEExsoNKZiGBiY9cCfo/Y/SjIOBMQizWWTe73CMUasJx7jlD+DdKdWUKoY4PRYFtGpO0G1Lx4RaadgTtJhf4fiGqGIwKWCGuGIwKWqP+7IxYCzygjR9IAO5pC7Da9g70TBVpWRNgFBlgT8RV2WxHbKwJMv4BOaEaYaU2K16yZMN/qgV+G7IWIvwyZCxHeDQMsR8wg0DBDDXB5H2EV+hkEGmaoySHQsEJNFoGGFWrAq98JRhUMX1iMMMqLLEIpK5jCbd4vw9nSt/72lewXiN6jmdjfq8Hdknlk92ZwJnbIMMRM7JBhiFlUFoHd1UWaP1QKsPsHA5mkNB+Smn9JqV3wskatnQAAAABJRU5ErkJggg==" />
-                </div>
-              </div>
-              <div className="item-conversation--detail" onClick={handleClickNewConversation}>
-                <div className="item-conversation--detail__title">
-                  Tin nhắn mới
-                </div>
-              </div>
+        {
+          loadingSearch ?
+            <div className="list-conversation__loading is-flex is-flex--center">
+              <Icon type="loading" style={{ fontSize: 30 }} />
             </div>
-          </div>
-          {
-            listConversation.map((el, index) => (
-              <div className={`item-conversation--wrapper ${selectedConversation == el.id ? "item-conversation--selected" : ""}`} key={index} onClick={() => setSelectedConversation(el.id)}>
+            :
+            <div className="list-conversation">
+              <div className="item-conversation--wrapper">
                 <div className="item-conversation">
                   <div className="item-conversation--avatar">
-                    {
-                      el.conversation_accounts.filter(el => el.account.id != account.id).slice(0, 2).map((e, i) => (
-                        <div className="item-conversation--avatar__item" key={i}>
-                          <img src={e.account.avatar} />
-                        </div>
-                      ))
-                    }
+                    <div className="item-conversation--avatar__item">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAMFBMVEXFxcX////CwsLGxsb7+/vT09PJycn19fXq6urb29ve3t7w8PDOzs7n5+f5+fnt7e30nlkBAAAFHUlEQVR4nO2dC5qqMAyFMTwUBdz/bq+VYYrKKJCkOfXmXwHna5uTpA+KwnEcx3Ecx3Ecx3Ecx3Ecx3Ecx3Ecx3Ecx3EcA2iO9cdIc5PUdO257y+BU39u66b4HplE3fk6VIcnqmNfl1+gksr6+iIucjl3WYukor7+re6Hoe1y1UhNO3zUd+fUFRmKpOa0Tt6dY5ubRCrOG/QFLk1WGmnt/JxzykcjdZ/jyxJDLlOV2l36AtcsJJb9boG3YcR3DuqODIE3ztYKPkDdmwRmpUToUaSaq++AvRgZMWbOpbQW8hdCAm8ZDugoikzREdCJ2okJPBx6azFLNOwoOgcxojJ98JkaTSJxMpklKrCAKhZGI0drTY/wU5lXoJYibannV9NYy4oozNEAkPHTjop+DTDxVGkIgYJNoyQQJtiIW+EMjGAjm649AjGIaqswcEFQKJ2QPlJbqytki6ZXAAZRJ52J2McaUowzAfs+uFzrYhnzaapphiPWdaJWShqxjqa6kTTQ205TVbsfMa6htL0iYOsXpJrQjHSmCkv1QGPtiHqlYcQ21Gj7fcDU8xOEUuNgSltPzexh+HqFlanCBHZ4OLhCV+gK/3OF6vWvucLv98MUOY2pwu/PS/+D2qJU7pYGbOvDFDW+bbON9p3o3oRxn0bfLgZTgSn6pSfrtr56qLHemtHPTK2319SzGvtjQ9qeb39WgS66Cm073nd0U1PzDdJCO3Gzn6TKpl9Zq7ujGWsQhlA3NwWIMwG9zM08Y/tBrR9VWeczv5CSQuuUNKIUTk23ZJ5RKfVhjnkXotfWIlgX2BSCDYbZR+QTcLhb3dKZDUY2M0d4KWItwhHRah/zsrOgKw4wycwjcgEVcgQDQo23CqSiWEJkFAfod2oE1uIFdA1OsCPqFXYNTjCfb8Ez+iX2x5sKLlVbhtqdDcar9ZevhnbZxoBUD35k23t0d304LYs1ELVbnfFaZ/REJJX9niP8Q19moZGo3m8XR/yBvOnjFfsXcI2c8ZuNo7WMP5HQh6yRGrlmFOJTnyTcT+zRlqPUBI2gTVWNUzUna1ERgecgF4GpNBQ38jGqxVLzQA1A31Rrhk6Yz9QEh/WND0GnuG9huhiTXJkxfAizTHLr6cbJKN6UCU6x/2DTRE1xEeEXi3O0ZUqBN4nJRzHhFB1JPlFTBZlI2kQ8zc3KJ1Le8DIRmFJiknuVS6RK4Ej/JtBfJErDSzOBiY4wJHX6Z1I4v1GUmdCPNirnLLeg3oJLcbX5PcpHNbRvOa1A956QmRPOUXVF+zkaUJynpkYR0bOMJH2nNej1pqyV/aKkz9jr5yj5vrXXz1F5SQLACiMapmierj2ikLyleKdlA/I/2oFxiglxx9B+mHwz0lf34IZQfhDRhlD6bhvgEAoPYooHkTczSIZTLC+cEExsoNKZiGBiY9cCfo/Y/SjIOBMQizWWTe73CMUasJx7jlD+DdKdWUKoY4PRYFtGpO0G1Lx4RaadgTtJhf4fiGqGIwKWCGuGIwKWqP+7IxYCzygjR9IAO5pC7Da9g70TBVpWRNgFBlgT8RV2WxHbKwJMv4BOaEaYaU2K16yZMN/qgV+G7IWIvwyZCxHeDQMsR8wg0DBDDXB5H2EV+hkEGmaoySHQsEJNFoGGFWrAq98JRhUMX1iMMMqLLEIpK5jCbd4vw9nSt/72lewXiN6jmdjfq8Hdknlk92ZwJnbIMMRM7JBhiFlUFoHd1UWaP1QKsPsHA5mkNB+Smn9JqV3wskatnQAAAABJRU5ErkJggg==" />
+                    </div>
                   </div>
-
-                  <div className="item-conversation--detail">
+                  <div className="item-conversation--detail" onClick={handleClickNewConversation}>
                     <div className="item-conversation--detail__title">
-                      {
-                        el.title ?
-                          el.title
-                          :
-                          el.conversation_accounts.filter(el => el.account.id != account.id).map((e, i) => (
-                            e.account.user_name
-                          )).join(", ")
-                      }
-                    </div>
-                    <div className="item-conversation--detail__message">
-                      {
-
-                      }
-                      {/* ban: */}
-                      {/* <span className="content">
-                        https://shopee.vn/lyphuong29073
-                      </span> */}
-                      <span className="time">
-                        {/* 13:30 */}
-                      </span>
-                    </div>
+                      Tin nhắn mới
+                </div>
                   </div>
                 </div>
               </div>
-            ))
-          }
-        </div>
+              {
+                listConversation.map((el, index) => (
+                  <div className={`item-conversation--wrapper ${selectedConversation == el.id ? "item-conversation--selected" : ""}`} key={index} onClick={() => setSelectedConversation(el.id)}>
+                    <div className="item-conversation">
+                      <div className="item-conversation--avatar">
+                        {
+                          el.conversation_accounts.filter(el => el.account.id != account.id).slice(0, 2).map((e, i) => (
+                            <div className="item-conversation--avatar__item" key={i}>
+                              <img src={e.account.avatar} />
+                            </div>
+                          ))
+                        }
+                      </div>
+
+                      <div className="item-conversation--detail">
+                        <div className="item-conversation--detail__title">
+                          {
+                            el.title ?
+                              el.title
+                              :
+                              el.conversation_accounts.filter(el => el.account.id != account.id).map((e, i) => (
+                                e.account.user_name
+                              )).join(", ")
+                          }
+                        </div>
+                        {/* <div className="item-conversation--detail__message">
+                          ban:
+                          <span className="content">
+                            https://shopee.vn/lyphuong29073
+                          </span>
+                          <span className="time">
+                            13:30
+                          </span>
+                        </div> */}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+
+        }
+
       </div>
       {
         visibleModal &&
