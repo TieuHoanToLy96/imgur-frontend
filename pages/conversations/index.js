@@ -9,7 +9,8 @@ import { searchFriend, createConversation, getConversations, sendMessage, getMes
 import { useDebounce } from "/hook"
 
 import io from 'socket.io-client'
-const socket = io('http://localhost:4000')
+const dev = process.env.node_env !== 'production'
+const socket = io(dev ? "http://localhost:4000" : "https://tieuhoan.dev")
 
 const ModalUpdateConversation = props => {
   const { currentConversation, closeModal, updateConversation } = props

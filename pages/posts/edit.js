@@ -3,8 +3,10 @@ import { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import produce from "immer"
 import Router from "next/router"
+
 import io from 'socket.io-client'
-const socket = io('http://localhost:4000')
+const dev = process.env.node_env !== 'production'
+const socket = io(dev ? "http://localhost:4000" : "https://tieuhoan.dev")
 
 import Reaction from "/components/Reaction"
 import ModalPreviewImage from "/components/ModalPreviewImage"

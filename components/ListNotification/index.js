@@ -1,11 +1,13 @@
 import { Avatar, Button } from "antd"
 import { connect } from "react-redux"
 import Router from "next/router"
-import io from 'socket.io-client'
-const socket = io('http://localhost:4000')
-import { formatDateTime } from "/utils/tools"
+import { formatDateTime, getHostName } from "/utils/tools"
 import { acceptFriendRequest, cancelFriendRequest, markSeenNotification, getNotifications } from "/redux/account/actions"
 import { useEffect } from "react";
+
+import io from 'socket.io-client'
+const dev = process.env.node_env !== 'production'
+const socket = io(dev ? "http://localhost:4000" : "https://tieuhoan.dev")
 
 const ListNotification = props => {
   const { data, acceptFriendRequest, cancelFriendRequest, markSeenNotification, getNotifications } = props

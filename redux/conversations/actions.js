@@ -3,7 +3,8 @@ import { getHostName } from "/utils/tools"
 import { sendGet, sendPost } from "/utils/request"
 
 import io from 'socket.io-client'
-const socket = io('http://localhost:4000')
+const dev = process.env.node_env !== 'production'
+const socket = io(dev ? "http://localhost:4000" : "https://tieuhoan.dev")
 
 export const searchFriend = (params) => {
   let url = `${getHostName()}/api/v1/account/search_friend`

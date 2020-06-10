@@ -2,8 +2,10 @@ import { Badge, Popover, Menu, Dropdown, Input, Button, Icon, Select, Avatar, no
 import Router from "next/router"
 import { connect } from "react-redux"
 import { useEffect, useState } from "react"
+
 import io from 'socket.io-client'
-const socket = io('http://localhost:4000')
+const dev = process.env.node_env !== 'production'
+const socket = io(dev ? "http://localhost:4000" : "https://tieuhoan.dev")
 
 import Notification from "/components/Notification/index"
 import ListNotification from "/components/ListNotification"
