@@ -16,12 +16,16 @@ const serverIO = http.Server(server);
 var io = socket(serverIO);
 
 io.on("connection", function (socket) {
-  socket.on("notification", data => {
-    io.emit(`noti:${data.accountId}`, data)
-  });
+  socket.on("join", room => {
+    socket.join(room)
 
-  socket.on("conversation", data => {
-    io.emit(`con:${data.conversationId}`, data)
+    socket.on("notification", data => {
+      socket.broadcast.to(room).emit(`noti:${data.accountId}`, data)
+    });
+
+    socket.on("conversation", data => {
+      socket.broadcast.to(room).emit(`con:${data.conversationId}`, data)
+    })
   })
 })
 
