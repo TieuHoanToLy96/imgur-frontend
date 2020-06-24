@@ -1,34 +1,25 @@
 import { connect } from "react-redux"
-import { useEffect, useState } from "react"
 
-import ListNotification from "/components/ListNotification"
 import HOC from "/hoc/index"
 import ListPost from "/components/ListPost"
 import ListStory from "/components/ListStory"
-import { getAllArticle, getAllStory } from "/redux/actions"
+import ListFriend from "/components/ListFriend"
 
 const Index = props => {
-  const { homePage, getAllArticle } = props
-  const [listStory, setListStory] = useState([])
-
-  useEffect(() => {
-    getAllArticle()
-    getAllStory({}, data => {
-      console.log(data)
-      setListStory(data.list_story)
-    })
-  }, [])
+  const { homePage } = props
 
   return (
-    <div className="container">
-      <div className="mt-50">
-        <div className="mt-20">
-          <ListStory listStory={listStory || []} />
+    <div className="is-flex">
+      <div className="" style={{ width: "calc(100% - 340px)" }}>
+        <div className="mt-50" style={{ width: "80%", margin: "auto" }}>
+          <ListStory />
           <div className="mt-30">
             <ListPost posts={homePage ?.all ?.articles || []} />
           </div>
         </div>
       </div>
+
+      <ListFriend {...props} />
     </div>
   )
 }
@@ -38,4 +29,4 @@ const mapStateToProps = state => {
     homePage: state.homePage
   }
 }
-export default connect(mapStateToProps, { getAllArticle })(HOC(Index))
+export default connect(mapStateToProps, {})(HOC(Index))

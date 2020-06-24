@@ -47,6 +47,13 @@
   }
 }
 
+.scrollbar {
+  &-y {
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
+
 .pd {
   &-lr {
     &--20 {

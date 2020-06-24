@@ -1,12 +1,20 @@
 import { Avatar } from "antd"
 import Router from "next/router"
+import { useEffect } from "react"
+import { connect } from "react-redux"
+
+import { getAllArticle } from "/redux/actions"
 
 const ListPost = props => {
-  const { posts } = props
+  const { posts, getAllArticle } = props
 
   const handleSelectPost = id => () => {
     Router.push(`/posts/${id}/edit`)
   }
+
+  useEffect(() => {
+    getAllArticle()
+  }, [])
 
   return (
     <div className="article-list--wrapper">
@@ -52,4 +60,4 @@ const ListPost = props => {
   )
 }
 
-export default ListPost
+export default connect(null, { getAllArticle })(ListPost)

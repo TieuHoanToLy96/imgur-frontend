@@ -18,6 +18,7 @@ export default (ChildComponent, isHiddenHeader = false) => {
           token = cookies.get("jwt")
         }
 
+        console.log(token, "tokennnn")
         if (token) {
           let dispatch = ctx.store.dispatch
           let getState = ctx.store.getState

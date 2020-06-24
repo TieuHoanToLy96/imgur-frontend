@@ -5,6 +5,7 @@ import { getHostName } from "/utils/tools"
 import { sendGet, sendPost } from "/utils/request"
 
 import io from 'socket.io-client'
+import produce from "immer"
 const dev = process.env.node_env !== 'production'
 const socket = io(dev ? "http://localhost:4000" : "https://tieuhoan.dev")
 
@@ -30,7 +31,10 @@ export const createOrUpdatePost = (accountId, params) => {
 export const getPost = (postId, accountId) => {
   return dispatch => {
     let url = `${getHostName()}/api/v1/article/show?account_id=${accountId}&article_id=${postId}`
-    return sendGet(url)
+    return axios({
+      method: "get",
+      url: url
+    })
       .then(res => {
         if (res.status == 200 && res.data.success == true) {
           dispatch(setEditPost(res.data.article))
@@ -41,6 +45,17 @@ export const getPost = (postId, accountId) => {
       .catch(error => {
         Notification.errorStrict(error, "Lấy danh sách bài viết thất bại")
       })
+    // return sendGet(url)
+    //   .then(res => {
+    //     if (res.status == 200 && res.data.success == true) {
+    //       dispatch(setEditPost(res.data.article))
+    //     } else {
+    //       Notification.errorNonStrict(res, "Lấy danh sách bài viết thất bại")
+    //     }
+    //   })
+    //   .catch(error => {
+    //     Notification.errorStrict(error, "Lấy danh sách bài viết thất bại")
+    //   })
   }
 }
 
@@ -90,8 +105,10 @@ export const createOrUpdateReaction = (accountId, params, cb) => {
           if (res.data.data.notification) {
             socket.emit("notification", { accountId: res.data.data.notification.receiver.id, notification: res.data.data.notification, countNoti: res.data.data.count_noti })
           }
-
-          dispatch(setReaction(res.data.data.reaction))
+          dispatch(setEditPost(produce(getState().post.editPost, draft => {
+            draft.reaction_count = res.data.data.reaction_count
+          })))
+          // dispatch(setReaction(res.data.data.reaction))
 
           if (cb) cb()
         } else {
@@ -106,19 +123,33 @@ export const createOrUpdateReaction = (accountId, params, cb) => {
 
 export const getComments = (accountId, articleId, params) => {
   return dispatch => {
-    let url = `${getHostName()}/api/v1/comment/list?account_id=${accountId}`
+    let url = `${getHostName()}/api/v1/comment/list?account_id=${accountId}&article_id=${articleId}`
 
-    return sendGet(url, { ...params, account_id: accountId, article_id: articleId })
+    return axios({
+      method: "get",
+      url: url
+    })
       .then(res => {
         if (res.status == 200 && res.data.success == true) {
           dispatch(setComments(res.data.data))
         } else {
-          Notification.errorNonStrict(res, "Lưu bình luận thất bại")
+          Notification.errorNonStrict(res, "Lấy bình luận thất bại")
         }
       })
       .catch(error => {
-        Notification.errorStrict(error, "Lưu bình luận thất bại")
+        Notification.errorStrict(error, "Lấy bình luận thất bại")
       })
+    // return sendGet(url, { ...params, account_id: accountId, article_id: articleId })
+    //   .then(res => {
+    //     if (res.status == 200 && res.data.success == true) {
+    //       dispatch(setComments(res.data.data))
+    //     } else {
+    //       Notification.errorNonStrict(res, "Lấy bình luận thất bại")
+    //     }
+    //   })
+    //   .catch(error => {
+    //     Notification.errorStrict(error, "Lấy bình luận thất bại")
+    //   })
   }
 }
 

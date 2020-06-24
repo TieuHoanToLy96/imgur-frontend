@@ -2,6 +2,7 @@ import axios from "axios"
 import { Cookies } from 'react-cookie'
 import produce from "immer"
 import { findIndex } from "lodash"
+import Router from "next/router"
 
 import io from 'socket.io-client'
 const dev = process.env.node_env !== 'production'
@@ -36,6 +37,7 @@ export const createAccount = data => {
         .then(res => {
           if (res.status == 200 && res.data.success == true) {
             cookies.set("jwt", res.data.data.token)
+            // setCookie("jwt", res.data.data.token)
             dispatch(setAccount(res.data.data.account))
             Notification.success(res.data.message || "Tạo tài khoản thành công")
           } else {
@@ -67,7 +69,9 @@ export const logIn = data => {
         .then(res => {
           if (res.status == 200 && res.data.success == true) {
             cookies.set("jwt", res.data.token)
+            // setCookie("jwt", res.data.token)
             dispatch(setAccount(res.data.account))
+            dispatch(setCountNoti(res.data.count_noti))
           } else {
             dispatch({
               type: "ACCOUNT::SIGN_IN_FAILED"
@@ -87,8 +91,10 @@ export const logIn = data => {
 
 export const logOut = () => {
   return dispatch => {
-    cookies.set("jwt", "")
-    dispatch(setAccount(null))
+    cookies.remove('jwt')
+    // removeCookie("jwt")
+    dispatch(setAccount({}))
+    // Router.push("/")
   }
 }
 

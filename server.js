@@ -16,16 +16,12 @@ const serverIO = http.Server(server);
 var io = socket(serverIO);
 
 io.on("connection", function (socket) {
-  socket.on("join", room => {
-    socket.join(room)
+  socket.on("notification", data => {
+    io.emit(`noti:${data.accountId}`, data)
+  });
 
-    socket.on("notification", data => {
-      socket.broadcast.to(room).emit(`noti:${data.accountId}`, data)
-    });
-
-    socket.on("conversation", data => {
-      socket.broadcast.to(room).emit(`con:${data.conversationId}`, data)
-    })
+  socket.on("conversation", data => {
+    io.emit(`con:${data.conversationId}`, data)
   })
 })
 
@@ -46,7 +42,7 @@ nextApp.prepare().then(() => {
     return nextApp.render(req, res, `/posts/show`, { postId: req.params.postId })
   })
   server.get("/posts/:postId/edit", (req, res) => {
-    return nextApp.render(req, res, `/posts/edit`, { postId: req.params.postId, isCreatePost: true })
+    return nextApp.render(req, res, `/posts/edit`, { postId: req.params.postId, isCreatePost: false })
   })
   server.get("/account/:account_url/:key", (req, res) => {
     return nextApp.render(req, res, `/account/${req.params.key}`, { accountUrl: req.params.account_url, key: req.params.key })

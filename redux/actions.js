@@ -30,7 +30,7 @@ export const getAllArticle = () => {
   }
 }
 
-export const search = (params) => {
+export const search = (params, cb) => {
   let url = `${getHostName()}/api/v1/search`
   return dispatch => {
     return sendGet(url, params)
@@ -49,9 +49,14 @@ export const search = (params) => {
         } else {
           Notification.errorNonStrict(res, "Tìm kiếm thất bại")
         }
+
+        return res
       })
       .catch(error => {
         Notification.errorStrict(error, "Tìm kiếm thất bại")
+      })
+      .finally(() => {
+        if (cb) cb()
       })
   }
 }

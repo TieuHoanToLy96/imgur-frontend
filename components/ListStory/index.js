@@ -1,8 +1,9 @@
-import { Avatar, Modal } from "antd"
+import { Avatar, Modal, Skeleton, Icon } from "antd"
 import Slider from "react-slick"
-import { useState } from "react";
+import { useState, useEffect } from "react"
 
 import ModalPreviewImage from "/components/ModalPreviewImage"
+import { getAllStory } from "/redux/actions"
 
 const settings = {
   dots: false,
@@ -47,49 +48,59 @@ const ModalViewStory = props => {
 }
 
 const ListStory = props => {
-  const { listStory } = props
+  const [listStory, setListStory] = useState([])
+  const [loading, setLoading] = useState(false)
   const [visibleModal, setVisibleModa] = useState(false)
   const [story, setStory] = useState({})
 
-  console.log(listStory, "listStorylistStorylistStorylistStory")
   const handleClickView = (el, index) => () => {
-    console.log(index, "index")
     setVisibleModa(true)
     setStory(el)
   }
 
+  useEffect(() => {
+    setLoading(true)
+    getAllStory({}, data => {
+      setListStory(data.list_story)
+      setLoading(false)
+    })
+  }, [])
+
   return (
     <>
-      <div className="story-list--wrapper">
-        <div className="story-list">
-          <div className="story-list--title is-flex is-flex--center mb-5">Câu chuyện</div>
-          <Slider {...settings}>
-            {
-              listStory.map((el, index) => (
-                <div key={index} className="story-item--wrapper" onClick={handleClickView(el, index)}>
-                  <div className="story-item">
-                    <div className="story-item--image">
-                      <img src={el ?.contents[0] ?.image} />
-                    </div>
-                    <div className="story-item--info is-flex is-flex--space-between">
-                      <div className="story-item--user">
-                        <Avatar size={40} src={el ?.account ?.avatar} />
+      {
+        loading ?
+          <Icon type="loading" /> :
+          <div className="story-list--wrapper">
+            <div className="story-list">
+              <div className="story-list--title is-flex is-flex--center mb-5">Câu chuyện</div>
+              <Slider {...settings}>
+                {
+                  listStory.map((el, index) => (
+                    <div key={index} className="story-item--wrapper" onClick={handleClickView(el, index)}>
+                      <div className="story-item">
+                        <div className="story-item--image">
+                          <img src={el ?.contents[0] ?.image} />
+                        </div>
+                        <div className="story-item--info is-flex is-flex--space-between">
+                          <div className="story-item--user">
+                            <Avatar size={40} src={el ?.account ?.avatar} />
+                          </div>
+                          <div className="story-item--name">
+                            {el ?.account ?.user_name}
+                          </div>
+                        </div>
+                        <div className="story-item--overlay">
+                        </div>
                       </div>
-                      <div className="story-item--name">
-                        {el ?.account ?.user_name}
-                      </div>
                     </div>
-                    <div className="story-item--overlay">
-                    </div>
-                  </div>
+                  ))
+                }
+              </Slider>
+            </div>
+          </div>
+      }
 
-
-                </div>
-              ))
-            }
-          </Slider>
-        </div>
-      </div>
       {
         visibleModal && <ModalViewStory {...props} indexPreview={0} closeModal={() => setVisibleModa(false)} story={story} />
       }

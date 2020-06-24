@@ -175,8 +175,16 @@ const EditPost = props => {
     )
   }
 
+  const handleCloseTag = tag => () => {
+    console.log(data, tag, "xxxxx")
+    setData(produce(data, draft => {
+      draft.tags = draft.tags.filter(el => el != tag)
+    }))
+  }
+
   useEffect(() => {
-    console.log(props)
+    console.log(account, "accountttt")
+    console.log(props.query.isCreatePost, "dddd")
     let postId = props.query.postId
     if (postId) {
       getPost(postId, account.id)
@@ -193,7 +201,7 @@ const EditPost = props => {
         <div className="is-flex is-flex--row post">
           <div className="mt-20 post-content">
             <div className="post-content--title is-flex is-flex--vcenter">
-              <Input disabled={account.id != editPost.id} value={data.title} placeholder="Give post a title" onChange={e => handleChangeData("title", e.target.value)} />
+              <Input disabled={props.query.isCreatePost ? false : account.id != editPost.id} value={data.title} placeholder="Give post a title" onChange={e => handleChangeData("title", e.target.value)} />
             </div>
 
             <div className="post-image--list">
@@ -279,7 +287,7 @@ const EditPost = props => {
             </div>
 
             {
-              account.id == editPost.account_id &&
+              (props.query.isCreatePost || account.id == editPost.account_id) &&
               <div className="post-content--add is-flex is-flex--center" onClick={() => setVisibleModalUpload(true)}>
                 <Icon type="plus-circle" className="mr-10" theme="filled" />
                 Thêm ảnh bài viết
@@ -288,7 +296,7 @@ const EditPost = props => {
           </div>
 
           {
-            account.id == editPost.account_id &&
+            (props.query.isCreatePost || account.id == editPost.account_id) &&
             <div className="mt-20 post-action">
               <div>
                 <Button className="post-action--save is-fullwidth" onClick={handleSavePost}>Lưu</Button>
@@ -305,7 +313,7 @@ const EditPost = props => {
                 <div className="post-action--tag__add is-flex">
                   {
                     data.tags && data.tags.map((el, index) => (
-                      <Tag key={index} closable>
+                      <Tag key={index} closable onClose={handleCloseTag(el)}>
                         {el}
                       </Tag>
                     ))

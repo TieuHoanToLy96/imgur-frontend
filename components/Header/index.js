@@ -15,6 +15,7 @@ import { useDebounce } from "/hook"
 
 const Header = props => {
   const { setCountNoti } = props
+  const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("");
   const debounceSearchTerm = useDebounce(searchTerm, 500);
 
@@ -40,7 +41,6 @@ const Header = props => {
     switch (key) {
       case "sign-out": {
         logOut()
-        Router.push("/")
         break
       }
       case "posts": {
@@ -132,7 +132,10 @@ const Header = props => {
 
   useEffect(() => {
     if (searchTerm) {
-      search({ term: searchTerm })
+      setLoading(true)
+      search({ term: searchTerm }, () => {
+        setLoading(false)
+      })
     }
   }, [debounceSearchTerm])
 
@@ -164,8 +167,8 @@ const Header = props => {
           <Dropdown overlay={menuSearch()}>
             <Input
               onChange={onChangeSearch}
-              placeholder="Images, #tags, @users oh my!"
-              suffix={<Icon type="search" />} />
+              placeholder="Tìm tên bài viết, người dùng, thẻ"
+              suffix={loading ? <Icon type="loading" /> : <Icon type="search" />} />
           </Dropdown>
         </div>
       </div>
